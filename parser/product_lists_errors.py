@@ -2,9 +2,13 @@ class ProductListsErrorsException(Exception):
     pass
 
 
-class NotFoundProductLists(ProductListsErrorsException):
+class NotFoundMainBlockProduct(ProductListsErrorsException):
     pass
 
 
-class NotFoundItemsProdictLists(ProductListsErrorsException):
+class NotFoundItemsProduct(ProductListsErrorsException):
+    pass
+
+
+class NotFoundUrlsProducts(ProductListsErrorsException):
     pass
