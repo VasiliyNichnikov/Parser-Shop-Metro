@@ -1,11 +1,12 @@
 from typing import Union
 from bs4 import BeautifulSoup, NavigableString
 
-from parser_metro.iproduct import IProduct
-from parser_metro.product_errors import NotFoundCatalogItemGroup, NotFoundCatalogItemDefaultImage, NotFoundUrl
+from parser_metro.product_lists.iurlproduct import IUrlProduct
+from parser_metro.product_lists.urlproducterror import NotFoundCatalogItemGroup, NotFoundCatalogItemDefaultImage, \
+    NotFoundUrl
 
 
-class Product(IProduct):
+class UrlProduct(IUrlProduct):
     @property
     def url(self) -> str:
         return self.__first_part_url + self.__url

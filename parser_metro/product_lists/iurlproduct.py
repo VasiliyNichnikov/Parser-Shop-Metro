@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class IProduct(ABC):
+class IUrlProduct(ABC):
     @property
     @abstractmethod
     def url(self) -> str:

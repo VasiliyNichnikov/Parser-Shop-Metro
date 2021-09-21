@@ -1,16 +1,15 @@
 from typing import Union, List
 from bs4 import BeautifulSoup, NavigableString, ResultSet
 
-from parser_metro.product import Product
-from parser_metro.iproduct import IProduct
-from parser_metro.iproduct_list import IProductList
-from parser_metro.product_lists_errors import NotFoundMainBlockProduct, NotFoundItemsProduct
+from parser_metro.product_lists.urlproduct import UrlProduct
+from parser_metro.product_lists.iurlproduct import IUrlProduct
+from parser_metro.product_lists.iproductlist import IProductList
+from parser_metro.product_lists.productlistserror import NotFoundMainBlockProduct, NotFoundItemsProduct
 
 
 class ProductList(IProductList):
-    def __init__(self, html_code: str) -> None:
-        self.__html_code = html_code
-        self.__bs4: BeautifulSoup = BeautifulSoup(self.__html_code, "lxml")
+    def __init__(self, bs: BeautifulSoup) -> None:
+        self.__bs4 = bs
 
     def search_urls_products(self) -> List[str]:
         self.__find_block_products()
@@ -32,7 +31,7 @@ class ProductList(IProductList):
     def __find_urls_products(self) -> List[str]:
         urls: List[str] = []
         for p in self.__products:
-            product: IProduct = Product(p)
+            product: IUrlProduct = UrlProduct(p)
             product.search_url()
             urls.append(product.url)
         yield urls
