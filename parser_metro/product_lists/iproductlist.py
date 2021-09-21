@@ -3,6 +3,11 @@ from abc import ABC, abstractmethod
 
 
 class IProductList(ABC):
+    @property
     @abstractmethod
-    def search_urls_products(self) -> List[str]:
+    def urls_product(self) -> List[str]:
+        pass
+
+    @abstractmethod
+    def search_urls_product(self) -> None:
         pass

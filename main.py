@@ -2,7 +2,7 @@
 # from parser_metro.product_lists import ProductList
 # from parser_metro.iproduct_list import IProductList
 #
-# path_file = "static/search.html"
+# path_file = "static/list_product.html"
 #
 # with open(path_file, "rb") as read:
 #     b: bytes = read.read()

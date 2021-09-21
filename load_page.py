@@ -5,7 +5,7 @@ url: str = "https://msk.metro-cc.ru/search?q=Мясо"
 # response: Response = get(url)
 # page: str = response.text
 # print(page)
-path_file = "static/search.html"
+path_file = "static/list_product.html"
 
 
 

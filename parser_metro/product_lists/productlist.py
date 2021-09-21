@@ -8,14 +8,18 @@ from parser_metro.product_lists.productlistserror import NotFoundMainBlockProduc
 
 
 class ProductList(IProductList):
+    @property
+    def urls_product(self) -> List[str]:
+        return self.__urls_product
+
     def __init__(self, bs: BeautifulSoup) -> None:
         self.__bs4 = bs
+        self.__urls_product: List = []
 
-    def search_urls_products(self) -> List[str]:
+    def search_urls_product(self) -> None:
         self.__find_block_products()
         self.__find_items_product()
-        self.__find_urls_products()
-        return self.__find_urls_products()
+        self.__urls_product = self.__find_urls_product()
 
     def __find_block_products(self) -> None:
         self.__block_products: Union[BeautifulSoup, NavigableString] = \
@@ -28,11 +32,10 @@ class ProductList(IProductList):
         if self.__products is None:
             raise NotFoundItemsProduct("Not found items product.")
 
-    def __find_urls_products(self) -> List[str]:
+    def __find_urls_product(self) -> List[str]:
         urls: List[str] = []
         for p in self.__products:
             product: IUrlProduct = UrlProduct(p)
             product.search_url()
             urls.append(product.url)
-        yield urls
-
+        return urls
