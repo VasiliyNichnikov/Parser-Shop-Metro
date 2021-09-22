@@ -1,8 +1,6 @@
-from typing import Any
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from seleniumwire import webdriver
+from recipient_from_server.iproxy import IProxy
+from seleniumwire.webdriver import ChromeOptions
 
 from recipient_from_server.iwebdriver import IWebDriver
 
@@ -16,5 +14,5 @@ class ChromeWebDriver(IWebDriver):
         self.__path_driver = path_driver
         self.__driver = None
 
-    def create(self, options: Options, dc: DesiredCapabilities = None) -> None:
-        self.__driver = webdriver.Chrome(self.__path_driver, chrome_options=options, desired_capabilities=dc)
+    def create(self, options: ChromeOptions, proxy: IProxy = None) -> None:
+        self.__driver = webdriver.Chrome(self.__path_driver, chrome_options=options, seleniumwire_options=proxy.options)

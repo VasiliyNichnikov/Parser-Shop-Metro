@@ -1,28 +1,21 @@
 import typing
+from recipient_from_server.iproxy import IProxy
 
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-
-class Proxy:
+class Proxy(IProxy):
     @property
-    def capabilities(self) -> dict:
-        return self.__capabilities
+    def options(self) -> typing.Dict:
+        field_for_http_https: str = f"{self.__login}:{self.__password}@{self.__host}:{self.__port}"
+        return {
+            "proxy": {
+                "http": f"http://{field_for_http_https}",
+                "https": f"https://{field_for_http_https}",
+                "no_proxy": "localhost,127.0.0.1"
+            }
+        }
 
     def __init__(self, host: str, port: str, login: str = None, password: str = None):
-        self.__proxy: typing.Dict = {
-            "address": f"{host}:{port}",
-            "username": login,
-            "password": password
-        }
-        self.__capabilities = dict(DesiredCapabilities.CHROME)
-        self.__capabilities["proxy"] = {
-            "proxyType": "MANUAL",
-            "httpProxy": self.__proxy["address"],
-            "ftpProxy": self.__proxy["address"],
-            "sslProxy": self.__proxy["address"],
-            "noProxy": "",
-            # "class": "org.openqa.selenium.Proxy",
-            "autodetect": False
-        }
-        self.__capabilities["proxy"]["socksUsername"] = self.__proxy["username"]
-        self.__capabilities["proxy"]["socksPassword"] = self.__proxy["password"]
+        self.__host = host
+        self.__port = port
+        self.__login = login
+        self.__password = password
