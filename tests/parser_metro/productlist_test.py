@@ -2,7 +2,7 @@ import pytest
 
 from parser_metro.product_lists.iproductlist import IProductList
 from parser_metro.product_lists.productlistfactory import ProductListFactory
-from parser_metro.product_lists.productlistserror import NotFoundMainBlockProduct
+from parser_metro.product_lists.productlisterror import NotFoundMainBlockProduct
 
 main_path = "../../static/html_files/"
 

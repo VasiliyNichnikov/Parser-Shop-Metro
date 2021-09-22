@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, NavigableString, ResultSet
 from parser_metro.product_lists.urlproduct import UrlProduct
 from parser_metro.product_lists.iurlproduct import IUrlProduct
 from parser_metro.product_lists.iproductlist import IProductList
-from parser_metro.product_lists.productlistserror import NotFoundMainBlockProduct, NotFoundItemsProduct
+from parser_metro.product_lists.productlisterror import NotFoundMainBlockProduct, NotFoundItemsProduct
 
 
 class ProductList(IProductList):
@@ -13,7 +13,7 @@ class ProductList(IProductList):
         return self.__urls_product
 
     def __init__(self, bs: BeautifulSoup) -> None:
-        self.__bs4 = bs
+        self.__bs = bs
         self.__urls_product: List = []
 
     def search_urls_product(self) -> None:
@@ -23,7 +23,7 @@ class ProductList(IProductList):
 
     def __find_block_products(self) -> None:
         self.__block_products: Union[BeautifulSoup, NavigableString] = \
-            self.__bs4.find("div", {"class": "search-page__products"})
+            self.__bs.find("div", {"class": "search-page__products"})
         if self.__block_products is None:
             raise NotFoundMainBlockProduct("Not found main block product.")
 
