@@ -1,14 +1,34 @@
 from typing import Union
 from bs4 import Tag, NavigableString
-from parser_metro.product.blockpriceerror import NotFindProductPageAside, \
+from parser_metro.product.block_price.iblockprice import IBlockPrice
+from parser_metro.product.block_price.blockpriceerror import NotFindProductPageAside, \
     NotFindProductPageCard, \
     NotFindPriceCardHead, \
     NotFindCardHeadLeft
 
 
-class BlockPrice:
+class BlockPrice(IBlockPrice):
+    @property
+    def main_price(self) -> str:
+        return self.__main_price
+
+    @property
+    def old_price(self) -> str:
+        return self.__old_price
+
     def __init__(self, block: Union[Tag, NavigableString]) -> None:
         self.__block = block
+        self.__main_price = "0"
+        self.__old_price = "0"
+
+    def search_data(self) -> None:
+        self.__find_product_page_aside()
+        self.__find_product_page_card()
+        self.__find_price_card_head()
+        self.__find_price_card_head_left()
+
+        self.__main_price = self.__get_main_price()
+        self.__old_price = self.__get_old_price()
 
     def __find_product_page_aside(self) -> None:
         self.__product_page_aside: Union[Tag, NavigableString] = self.__block. \
@@ -41,7 +61,7 @@ class BlockPrice:
             return "Not main price"
         price: Union[Tag, NavigableString] = price_card.find("span", {"itemprop": "price"})
         if price is None:
-            return "Not main price"
+            return "0"
         return price.text
 
     def __get_old_price(self) -> str:
@@ -51,5 +71,5 @@ class BlockPrice:
             return "Not old price"
         price: Union[Tag, NavigableString] = price_card.find("span")
         if price is None:
-            return "Not old price"
+            return "0"
         return price.text
