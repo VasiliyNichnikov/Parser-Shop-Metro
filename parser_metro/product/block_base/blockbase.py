@@ -1,13 +1,39 @@
+import re
 from typing import Union
 from bs4 import Tag, NavigableString
-from parser_metro.product.blockbaseerror import NotFindPageSpec, \
+from parser_metro.product.block_base.iblockbase import IBlockBase
+from parser_metro.product.block_base.blockbaseerror import NotFindPageSpec, \
     NotFindPageDesc, \
     NotFindPageInfo
 
 
-class BlockBase:
+class BlockBase(IBlockBase):
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @property
+    def code(self) -> str:
+        return self.__code
+
+    @property
+    def brand(self) -> str:
+        return self.__brand
+
     def __init__(self, block: Union[Tag, NavigableString]) -> None:
         self.__block = block
+        self.__title: str = "Not Title"
+        self.__code: str = "Not Code"
+        self.__brand: str = "Not Brand"
+
+    def search_data(self) -> None:
+        self.__find_page_spec()
+        self.__find_page_desc()
+        self.__find_page_info()
+
+        self.__title = self.__get_title()
+        self.__code = self.__get_code()
+        self.__brand = self.__get_brand()
 
     def __find_page_spec(self) -> None:
         self.__page_spec: Union[Tag, NavigableString] = self.__block.find("div", {"class": "product-page__spec"})
@@ -29,7 +55,7 @@ class BlockBase:
         title: Union[Tag, NavigableString] = page_title.find("h1")
         if title is None:
             return "Not Title"
-        return title.text
+        return re.sub(r"\s+", ' ', title.text)
 
     def __get_code(self) -> str:
         page_code: Union[Tag, NavigableString] = self.__page_desc.find("div", {"class": "product-page__code"})
@@ -43,4 +69,4 @@ class BlockBase:
         brand: Union[Tag, NavigableString] = page_brand.find("span")
         if brand is None:
             return "Not Brand"
-        return brand.text
+        return re.sub(r"\s+", ' ', brand.text)

@@ -4,7 +4,7 @@ from parser_metro.product_catalog.cataloglistfactory import CatalogListFactory
 from parser_metro.product_catalog.icataloglist import ICatalogList
 
 
-main_path = "../../static/html_files/"
+main_path: str = "../../static/html_files/"
 
 
 def test_search_max_page_with_html_code_right() -> None:
