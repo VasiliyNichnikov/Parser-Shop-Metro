@@ -13,14 +13,3 @@ class NotFindPageDesc(BlockBaseError):
 class NotFindPageInfo(BlockBaseError):
     pass
 
-
-class NotFindTitle(BlockBaseError):
-    pass
-
-
-class NotFindCode(BlockBaseError):
-    pass
-
-
-class NotFindBrand(BlockBaseError):
-    pass
