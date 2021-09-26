@@ -8,8 +8,3 @@ class NotFindPageSpec(BlockBaseError):
 
 class NotFindPageDesc(BlockBaseError):
     pass
-
-
-class NotFindPageInfo(BlockBaseError):
-    pass
-

@@ -3,8 +3,7 @@ from typing import Union
 from bs4 import Tag, NavigableString
 from parser_metro.product.block_base.iblockbase import IBlockBase
 from parser_metro.product.block_base.blockbaseerror import NotFindPageSpec, \
-    NotFindPageDesc, \
-    NotFindPageInfo
+    NotFindPageDesc
 
 
 class BlockBase(IBlockBase):
@@ -29,7 +28,6 @@ class BlockBase(IBlockBase):
     def search_data(self) -> None:
         self.__find_page_spec()
         self.__find_page_desc()
-        self.__find_page_info()
 
         self.__title = self.__get_title()
         self.__code = self.__get_code()
@@ -45,13 +43,10 @@ class BlockBase(IBlockBase):
         if self.__page_desc is None:
             raise NotFindPageDesc("Not find desc")
 
-    def __find_page_info(self) -> None:
-        self.__page_info: Union[Tag, NavigableString] = self.__page_spec.find("div", {"class": "product-page__info"})
-        if self.__page_info is None:
-            raise NotFindPageInfo("Not find info")
-
     def __get_title(self) -> str:
         page_title: Union[Tag, NavigableString] = self.__page_spec.find("div", {"class": "product-page__title"})
+        if page_title is None:
+            return "Not Title"
         title: Union[Tag, NavigableString] = page_title.find("h1")
         if title is None:
             return "Not Title"
@@ -59,6 +54,8 @@ class BlockBase(IBlockBase):
 
     def __get_code(self) -> str:
         page_code: Union[Tag, NavigableString] = self.__page_desc.find("div", {"class": "product-page__code"})
+        if page_code is None:
+            return "Not Code"
         product_id: Union[Tag, NavigableString] = page_code.find("span", {"itemprop": "productID"})
         if product_id is None:
             return "Not Code"
@@ -66,6 +63,8 @@ class BlockBase(IBlockBase):
 
     def __get_brand(self) -> str:
         page_brand: Union[Tag, NavigableString] = self.__page_desc.find("div", {"class": "product-page__brand"})
+        if page_brand is None:
+            return "Not Brand"
         brand: Union[Tag, NavigableString] = page_brand.find("span")
         if brand is None:
             return "Not Brand"
