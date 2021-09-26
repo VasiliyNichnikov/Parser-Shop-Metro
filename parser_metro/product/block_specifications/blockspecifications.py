@@ -1,14 +1,29 @@
+import typing
 from typing import Union, Dict
 from bs4 import Tag, NavigableString, ResultSet
-from parser_metro.product.blockspecificationserror import NotFindProductPageContainer, \
+
+from parser_metro.product.block_specifications.iblockspecifications import IBlockSpecifications
+from parser_metro.product.block_specifications.blockspecificationserror import NotFindProductPageContainer, \
     NotFindProductPageTab, \
     NotFindProductPageFullspec, \
     NotFindProductFullspecAll
 
 
-class BlockSpecifications:
+class BlockSpecifications(IBlockSpecifications):
+    @property
+    def specifications(self) -> typing.Dict[str, str]:
+        return self.__specifications
+
     def __init__(self, block: Union[Tag, NavigableString]) -> None:
         self.__block = block
+        self.__specifications: Dict[str, str] = {}
+
+    def search_data(self) -> None:
+        self.__find_product_page_container()
+        self.__find_product_page_tab()
+        self.__find_product_page_fullspec()
+        self.__find_product_fullspec_all()
+        self.__specifications = self.__get_specifications()
 
     def __find_product_page_container(self) -> None:
         self.__product_page_container: Union[Tag, NavigableString] = self.__block. \
