@@ -1,11 +1,32 @@
+import typing
 from typing import Union, List
 from bs4 import Tag, NavigableString, ResultSet
-from parser_metro.product.blockimageserror import NotFindPageSwiper, NotPageSlideContainer, NotPageSlideNav
+
+from parser_metro.product.block_images.iblockimages import IBlockImages
+from parser_metro.product.block_images.blockimageserror import NotFindPageSwiper, NotPageSlideContainer, NotPageSlideNav
 
 
-class BlockImages:
+class BlockImages(IBlockImages):
+    @property
+    def main_image(self) -> str:
+        return self.__main_image
+
+    @property
+    def urls_additional(self) -> typing.List[str]:
+        return self.__urls_additional
+
     def __init__(self, block: Union[Tag, NavigableString]) -> None:
         self.__block = block
+        self.__main_image: str = ""
+        self.__urls_additional: List[str] = []
+
+    def search_data(self) -> None:
+        self.__find_page_swiper()
+        self.__find_page_slide_container()
+        self.__find_page_slide_nav()
+
+        self.__main_image = self.__get_url_main_image()
+        self.__urls_additional = self.__get_urls_additional()
 
     def __find_page_swiper(self) -> None:
         self.__page_swiper: Union[Tag, NavigableString] = self.__block.find("div", {"class": "product-page__swiper"})
