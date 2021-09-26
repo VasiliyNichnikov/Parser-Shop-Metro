@@ -11,49 +11,49 @@ path_sheepmeat_without_product_page_disc = "../../static/html_files/sheepmeat_wi
 
 
 @pytest.fixture()
-def init_block_base_sheepmeat(request) -> IBlockBase:
+def init_block_base() -> IBlockBase:
     html_code: str = get_html_code(main_path_sheepmeat)
     block_base: IBlockBase = BlockBaseFactory.build(html_code)
     return block_base
 
 
 @pytest.fixture()
-def init_block_base_sheepmeat_without_product_page_disc(request) -> IBlockBase:
+def init_block_base_without_product_page_disc() -> IBlockBase:
     html_code: str = get_html_code(path_sheepmeat_without_product_page_disc)
     block_base: IBlockBase = BlockBaseFactory.build(html_code)
     return block_base
 
 
-def test_get_title(init_block_base_sheepmeat) -> None:
+def test_get_title(init_block_base) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_base_sheepmeat
+    block_base: IBlockBase = init_block_base
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.title == "Баранина для плова охлажденная вакуумная упаковка МЯСО ЕСТЬ!"
 
 
-def test_get_code(init_block_base_sheepmeat) -> None:
+def test_get_code(init_block_base) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_base_sheepmeat
+    block_base: IBlockBase = init_block_base
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.code == "563516"
 
 
-def test_get_brand(init_block_base_sheepmeat) -> None:
+def test_get_brand(init_block_base) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_base_sheepmeat
+    block_base: IBlockBase = init_block_base
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.brand == "МЯСО ЕСТЬ!"
 
 
-def test_catching_error_not_find_page_desc(init_block_base_sheepmeat_without_product_page_disc):
+def test_catching_error_not_find_page_desc(init_block_base_without_product_page_disc):
     # ARRANGE
-    block_base: IBlockBase = init_block_base_sheepmeat_without_product_page_disc
+    block_base: IBlockBase = init_block_base_without_product_page_disc
     # ACT
     with pytest.raises(NotFindPageDesc):
         block_base.search_data()

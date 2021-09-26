@@ -42,8 +42,6 @@ class BlockImages(IBlockImages):
     def __find_page_slide_nav(self) -> None:
         self.__page_slide_nav: Union[Tag, NavigableString] = self.__page_swiper. \
             find("div", {"class": "product-page__slide-nav"})
-        if self.__page_slide_nav is None:
-            raise NotPageSlideNav("Not find slide nav")
 
     def __get_url_main_image(self) -> str:
         main_image: Union[Tag, NavigableString] = self.__page_slide_container. \
@@ -54,6 +52,8 @@ class BlockImages(IBlockImages):
 
     def __get_urls_additional(self) -> List[str]:
         urls: List[str] = []
+        if self.__page_slide_nav is None:
+            return urls
         items: ResultSet = self.__page_slide_nav.find_all("div", {"class": "swiper-slide"})
         for item in items:
             a: Union[Tag, NavigableString] = item.find("a")
