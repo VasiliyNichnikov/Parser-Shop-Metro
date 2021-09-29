@@ -1,5 +1,3 @@
-import re
-
 import pytest
 from tests.workingwithfiles import get_html_code
 
