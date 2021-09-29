@@ -1,3 +1,4 @@
+import re
 from typing import Union
 from bs4 import Tag, NavigableString
 from parser_metro.product.block_price.iblockprice import IBlockPrice
@@ -38,7 +39,7 @@ class BlockPrice(IBlockPrice):
 
     def __find_product_page_card(self) -> None:
         self.__product_page_card: Union[Tag, NavigableString] = self.__product_page_aside. \
-            find("div", {"class": ["product-page__card vue-affix", "affix-top"]})
+            find("div", {"class": ["product-page__card", "vue-affix", "affix-top"]})
         if self.__product_page_card is None:
             raise NotFindProductPageCard("Not find product card")
 
@@ -62,7 +63,7 @@ class BlockPrice(IBlockPrice):
         price: Union[Tag, NavigableString] = price_card.find("span", {"itemprop": "price"})
         if price is None:
             return "0"
-        return price.text
+        return re.sub(r"\s+", '', price.text)
 
     def __get_old_price(self) -> str:
         price_card: Union[Tag, NavigableString] = self.__price_card_head_left. \
@@ -72,4 +73,4 @@ class BlockPrice(IBlockPrice):
         price: Union[Tag, NavigableString] = price_card.find("span")
         if price is None:
             return "0"
-        return price.text
+        return re.sub(r"\s+", '', price.text)
