@@ -2,48 +2,52 @@ import pytest
 
 from tests.workingwithfiles import get_html_code
 
-from parser_metro.product.block_base.blockbasefactory import BlockBaseFactory
-from parser_metro.product.block_base.iblockbase import IBlockBase
+from bs4 import BeautifulSoup
+from parser_metro.product.block_base.blockbase import BlockBase
 
 main_path_pancakes: str = "../../static/html_files/pancakes.html"
 path_pancakes_without_code_and_title: str = "../../static/html_files/pancakes_without_code_and_title.html"
 
 
 @pytest.fixture()
-def init_block_base_pancakes(request) -> IBlockBase:
+def init_block_base_pancakes() -> BlockBase:
     html_code: str = get_html_code(main_path_pancakes)
-    block_base: IBlockBase = BlockBaseFactory.build(html_code)
+
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+    block_base: BlockBase = BlockBase(bs)
     return block_base
 
 
 @pytest.fixture()
-def init_block_base_without_code_and_title() -> IBlockBase:
+def init_block_base_without_code_and_title() -> BlockBase:
     html_code: str = get_html_code(path_pancakes_without_code_and_title)
-    block_base: IBlockBase = BlockBaseFactory.build(html_code)
+
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+    block_base: BlockBase = BlockBase(bs)
     return block_base
 
 
-def test_get_title(init_block_images_pancakes) -> None:
+def test_get_title(init_block_base_pancakes) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_images_pancakes
+    block_base: BlockBase = init_block_base_pancakes
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.title == "Блинчики с мясом Metro Chef замороженные, 1кг"
 
 
-def test_get_code(init_block_images_pancakes) -> None:
+def test_get_code(init_block_base_pancakes) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_images_pancakes
+    block_base: BlockBase = init_block_base_pancakes
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.code == "411281"
 
 
-def test_get_brand(init_block_images_pancakes) -> None:
+def test_get_brand(init_block_base_pancakes) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_images_pancakes
+    block_base: BlockBase = init_block_base_pancakes
     # ACT
     block_base.search_data()
     # ASSERT
@@ -52,7 +56,7 @@ def test_get_brand(init_block_images_pancakes) -> None:
 
 def test_pancakes_without_title(init_block_base_without_code_and_title) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_base_without_code_and_title
+    block_base: BlockBase = init_block_base_without_code_and_title
     # ACT
     block_base.search_data()
     # ASSERT
@@ -61,7 +65,7 @@ def test_pancakes_without_title(init_block_base_without_code_and_title) -> None:
 
 def test_pancakes_without_code(init_block_base_without_code_and_title) -> None:
     # ARRANGE
-    block_base: IBlockBase = init_block_base_without_code_and_title
+    block_base: BlockBase = init_block_base_without_code_and_title
     # ACT
     block_base.search_data()
     # ASSERT

@@ -1,9 +1,9 @@
 import pytest
+from bs4 import BeautifulSoup
 
 from tests.workingwithfiles import get_html_code
 
-from parser_metro.product.block_images.blockimagesfactory import BlockImagesFactory
-from parser_metro.product.block_images.iblockimages import IBlockImages
+from parser_metro.product.block_images.blockimages import BlockImages
 from parser_metro.product.block_images.blockimageserror import NotFindPageSwiper
 
 main_path_pancakes: str = "../../static/html_files/pancakes.html"
@@ -12,29 +12,35 @@ path_without_page_swiper: str = "../../static/html_files/pancakes_without_page_s
 
 
 @pytest.fixture()
-def init_block_images_pancakes() -> IBlockImages:
+def init_block_images_pancakes() -> BlockImages:
     html_code: str = get_html_code(main_path_pancakes)
-    block_images: IBlockImages = BlockImagesFactory.build(html_code)
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+
+    block_images: BlockImages = BlockImages(bs)
     return block_images
 
 
 @pytest.fixture()
-def init_block_images_sheepmeat() -> IBlockImages:
+def init_block_images_sheepmeat() -> BlockImages:
     html_code: str = get_html_code(main_path_sheepmeat)
-    block_images: IBlockImages = BlockImagesFactory.build(html_code)
+
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+    block_images: BlockImages = BlockImages(bs)
     return block_images
 
 
 @pytest.fixture()
-def init_block_images_without_page_swiper() -> IBlockImages:
+def init_block_images_without_page_swiper() -> BlockImages:
     html_code: str = get_html_code(path_without_page_swiper)
-    block_images: IBlockImages = BlockImagesFactory.build(html_code)
+
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+    block_images: BlockImages = BlockImages(bs)
     return block_images
 
 
 def test_get_pancakes_main_image(init_block_images_pancakes) -> None:
     # ARRANGE
-    block_images: IBlockImages = init_block_images_pancakes
+    block_images: BlockImages = init_block_images_pancakes
     # ACT
     block_images.search_data()
     # ASSERT
@@ -44,7 +50,7 @@ def test_get_pancakes_main_image(init_block_images_pancakes) -> None:
 
 def test_get_pancakes_urls_additional(init_block_images_pancakes) -> None:
     # ARRANGE
-    block_images: IBlockImages = init_block_images_pancakes
+    block_images: BlockImages = init_block_images_pancakes
     # ACT
     block_images.search_data()
     # ASSERT
@@ -53,7 +59,7 @@ def test_get_pancakes_urls_additional(init_block_images_pancakes) -> None:
 
 def test_pancakes_catching_error_not_find_page_swiper(init_block_images_without_page_swiper) -> None:
     # ARRANGE
-    block_images: IBlockImages = init_block_images_without_page_swiper
+    block_images: BlockImages = init_block_images_without_page_swiper
     # ACT
     with pytest.raises(NotFindPageSwiper):
         block_images.search_data()
@@ -61,7 +67,7 @@ def test_pancakes_catching_error_not_find_page_swiper(init_block_images_without_
 
 def test_sheepmeat_urls_additional(init_block_images_sheepmeat) -> None:
     # ARRANGE
-    block_images: IBlockImages = init_block_images_sheepmeat
+    block_images: BlockImages = init_block_images_sheepmeat
     # ACT
     block_images.search_data()
     # ASSERT

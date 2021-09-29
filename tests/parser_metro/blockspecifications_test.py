@@ -1,8 +1,8 @@
 import pytest
 from tests.workingwithfiles import get_html_code
 
-from parser_metro.product.block_specifications.iblockspecifications import IBlockSpecifications
-from parser_metro.product.block_specifications.blockspecificationsfactory import BlockSpecificationsFactory
+from bs4 import BeautifulSoup
+from parser_metro.product.block_specifications.blockspecifications import BlockSpecifications
 from parser_metro.product.block_specifications.blockspecificationserror import NotFindProductPageTab
 
 main_path_pancakes: str = "../../static/html_files/pancakes.html"
@@ -10,22 +10,26 @@ path_pancakes_without_product_page_tab: str = "../../static/html_files/pancakes_
 
 
 @pytest.fixture()
-def init_block_specifications_pancakes() -> IBlockSpecifications:
+def init_block_specifications_pancakes() -> BlockSpecifications:
     html_code: str = get_html_code(main_path_pancakes)
-    block_specifications: IBlockSpecifications = BlockSpecificationsFactory.build(html_code)
+
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+    block_specifications: BlockSpecifications = BlockSpecifications(bs)
     return block_specifications
 
 
 @pytest.fixture()
-def init_block_specifications_without_product_page_tab() -> IBlockSpecifications:
+def init_block_specifications_without_product_page_tab() -> BlockSpecifications:
     html_code: str = get_html_code(path_pancakes_without_product_page_tab)
-    block_specifications: IBlockSpecifications = BlockSpecificationsFactory.build(html_code)
+
+    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
+    block_specifications: BlockSpecifications = BlockSpecifications(bs)
     return block_specifications
 
 
 def test_get_specifications(init_block_specifications_pancakes) -> None:
     # ARRANGE
-    block_specifications: IBlockSpecifications = init_block_specifications_pancakes
+    block_specifications: BlockSpecifications = init_block_specifications_pancakes
     # ACT
     block_specifications.search_data()
     # ASSERT
@@ -34,7 +38,7 @@ def test_get_specifications(init_block_specifications_pancakes) -> None:
 
 def test_get_description(init_block_specifications_pancakes) -> None:
     # ARRANGE
-    block_specifications: IBlockSpecifications = init_block_specifications_pancakes
+    block_specifications: BlockSpecifications = init_block_specifications_pancakes
     # ACT
     block_specifications.search_data()
     # ASSERT
@@ -43,7 +47,7 @@ def test_get_description(init_block_specifications_pancakes) -> None:
 
 def test_catching_error_not_find_product_page_tab(init_block_specifications_without_product_page_tab) -> None:
     # ARRANGE
-    block_specifications: IBlockSpecifications = init_block_specifications_without_product_page_tab
+    block_specifications: BlockSpecifications = init_block_specifications_without_product_page_tab
     # ACT
     with pytest.raises(NotFindProductPageTab):
         block_specifications.search_data()
