@@ -8,6 +8,11 @@ class IBlockSpecifications(ABC):
     def specifications(self) -> typing.Dict[str, str]:
         pass
 
+    @property
+    @abstractmethod
+    def description(self) -> str:
+        pass
+
     @abstractmethod
     def search_data(self) -> None:
         pass

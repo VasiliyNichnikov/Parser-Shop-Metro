@@ -1,3 +1,4 @@
+import re
 import typing
 from typing import Union, Dict
 from bs4 import Tag, NavigableString, ResultSet
@@ -14,9 +15,14 @@ class BlockSpecifications(IBlockSpecifications):
     def specifications(self) -> typing.Dict[str, str]:
         return self.__specifications
 
+    @property
+    def description(self) -> str:
+        return self.__description
+
     def __init__(self, block: Union[Tag, NavigableString]) -> None:
         self.__block = block
         self.__specifications: Dict[str, str] = {}
+        self.__description: str = ""
 
     def search_data(self) -> None:
         self.__find_product_page_container()
@@ -24,6 +30,7 @@ class BlockSpecifications(IBlockSpecifications):
         self.__find_product_page_fullspec()
         self.__find_product_fullspec_all()
         self.__specifications = self.__get_specifications()
+        self.__description = self.__get_description()
 
     def __find_product_page_container(self) -> None:
         self.__product_page_container: Union[Tag, NavigableString] = self.__block. \
@@ -49,11 +56,20 @@ class BlockSpecifications(IBlockSpecifications):
         if self.__product_fullspec_all is None:
             raise NotFindProductFullspecAll("Not find product fullspec all")
 
+    def __get_description(self) -> str:
+        description: Union[Tag, NavigableString] = self.__product_page_tab. \
+            find("div", {"class": "product-page__description"})
+        if description is None:
+            return "Not Description"
+        return re.sub(r"\s+", ' ', description.text)
+
     def __get_specifications(self) -> Dict[str, str]:
         specifications: Dict[str, str] = {}
         for spec in self.__product_fullspec_all:
             _type: Union[Tag, NavigableString] = spec.find("p")
             _value: Union[Tag, NavigableString] = spec.find("span")
             if _type is not None and _value is not None:
-                specifications[_type.text] = _value.text
+                type_value: str = re.sub(r"\s+", '', _type.text).lower()
+                info_value: str = re.sub(r"\s+", '', _value.text).lower()
+                specifications[type_value] = info_value
         return specifications
