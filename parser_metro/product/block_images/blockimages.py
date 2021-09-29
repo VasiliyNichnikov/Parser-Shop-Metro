@@ -44,11 +44,13 @@ class BlockImages(IBlockImages):
             find("div", {"class": "product-page__slide-nav"})
 
     def __get_url_main_image(self) -> str:
+        result: str = "0"
         main_image: Union[Tag, NavigableString] = self.__page_slide_container. \
             find("img", {"class": "product-page__slide-img"})
         if main_image is None:
-            return "Not main image"
-        return main_image.get("src")
+            return result
+        result = main_image.get("src")
+        return result
 
     def __get_urls_additional(self) -> List[str]:
         urls: List[str] = []

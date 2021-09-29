@@ -57,11 +57,13 @@ class BlockSpecifications(IBlockSpecifications):
             raise NotFindProductFullspecAll("Not find product fullspec all")
 
     def __get_description(self) -> str:
+        result: str = "0"
         description: Union[Tag, NavigableString] = self.__product_page_tab. \
             find("div", {"class": "product-page__description"})
         if description is None:
-            return "Not Description"
-        return re.sub(r"\s+", ' ', description.text)
+            return result
+        result = re.sub(r"\s+", ' ', description.text)
+        return result
 
     def __get_specifications(self) -> Dict[str, str]:
         specifications: Dict[str, str] = {}

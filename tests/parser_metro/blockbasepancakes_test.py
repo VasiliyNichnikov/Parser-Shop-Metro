@@ -60,7 +60,7 @@ def test_pancakes_without_title(init_block_base_without_code_and_title) -> None:
     # ACT
     block_base.search_data()
     # ASSERT
-    assert block_base.title == "Not Title"
+    assert block_base.title == "0"
 
 
 def test_pancakes_without_code(init_block_base_without_code_and_title) -> None:
@@ -69,4 +69,4 @@ def test_pancakes_without_code(init_block_base_without_code_and_title) -> None:
     # ACT
     block_base.search_data()
     # ASSERT
-    assert block_base.code == "Not Code"
+    assert block_base.code == "0"

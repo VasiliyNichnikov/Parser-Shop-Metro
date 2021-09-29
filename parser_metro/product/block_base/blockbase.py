@@ -44,28 +44,34 @@ class BlockBase(IBlockBase):
             raise NotFindPageDesc("Not find desc")
 
     def __get_title(self) -> str:
+        result: str = "0"
         page_title: Union[Tag, NavigableString] = self.__page_spec.find("div", {"class": "product-page__title"})
         if page_title is None:
-            return "Not Title"
+            return result
         title: Union[Tag, NavigableString] = page_title.find("h1")
         if title is None:
-            return "Not Title"
-        return re.sub(r"\s+", ' ', title.text)
+            return result
+        result = re.sub(r"\s+", ' ', title.text)
+        return result
 
     def __get_code(self) -> str:
+        result: str = "0"
         page_code: Union[Tag, NavigableString] = self.__page_desc.find("div", {"class": "product-page__code"})
         if page_code is None:
-            return "Not Code"
+            return result
         product_id: Union[Tag, NavigableString] = page_code.find("span", {"itemprop": "productID"})
         if product_id is None:
-            return "Not Code"
-        return product_id.text
+            return result
+        result = product_id.text
+        return result
 
     def __get_brand(self) -> str:
+        result: str = "0"
         page_brand: Union[Tag, NavigableString] = self.__page_desc.find("div", {"class": "product-page__brand"})
         if page_brand is None:
-            return "Not Brand"
+            return result
         brand: Union[Tag, NavigableString] = page_brand.find("span")
         if brand is None:
-            return "Not Brand"
-        return re.sub(r"\s+", ' ', brand.text)
+            return result
+        result = re.sub(r"\s+", ' ', brand.text)
+        return result

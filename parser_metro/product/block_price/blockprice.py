@@ -56,21 +56,25 @@ class BlockPrice(IBlockPrice):
             raise NotFindCardHeadLeft("Not find card head left")
 
     def __get_main_price(self) -> str:
+        result: str = "0"
         price_card: Union[Tag, NavigableString] = self.__price_card_head_left. \
             find("div", {"class": ["price-card__price", "price-card__price--promo"]})
         if price_card is None:
-            return "Not main price"
+            return result
         price: Union[Tag, NavigableString] = price_card.find("span", {"itemprop": "price"})
         if price is None:
-            return "0"
-        return re.sub(r"\s+", '', price.text)
+            return result
+        result = re.sub(r"\s+", '', price.text)
+        return result
 
     def __get_old_price(self) -> str:
+        result: str = "0"
         price_card: Union[Tag, NavigableString] = self.__price_card_head_left. \
             find("div", {"class": "price-card__oldprice"})
         if price_card is None:
-            return "Not old price"
+            return result
         price: Union[Tag, NavigableString] = price_card.find("span")
         if price is None:
-            return "0"
-        return re.sub(r"\s+", '', price.text)
+            return result
+        result = re.sub(r"\s+", '', price.text)
+        return result

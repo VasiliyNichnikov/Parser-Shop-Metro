@@ -62,7 +62,7 @@ def test_get_old_price_from_html_without_old_price(init_block_without_old_price)
     # ACT
     block_price.search_data()
     # ASSERT
-    assert block_price.old_price == "Not old price"
+    assert block_price.old_price == "0"
 
 
 def test_catching_error_not_find_price_card_head(init_block_without_price_card_head) -> None:
