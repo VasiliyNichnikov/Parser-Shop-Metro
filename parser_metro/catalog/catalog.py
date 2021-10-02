@@ -1,8 +1,8 @@
-from parser_metro.max_page.searchmaxpage import ISearchMaxPage
-from parser_metro.max_page.searchmaxpageerror import SearchMaxPageError
+from parser_metro.catalog.max_page.searchmaxpage import ISearchMaxPage
+from parser_metro.catalog.max_page.searchmaxpageerror import SearchMaxPageError
 
-from parser_metro.product_lists.productlist import IProductList
-from parser_metro.product_lists.productlisterror import ProductListError
+from parser_metro.catalog.product_lists.productlist import IProductList
+from parser_metro.catalog.product_lists.productlisterror import ProductListError
 
 
 class Catalog:

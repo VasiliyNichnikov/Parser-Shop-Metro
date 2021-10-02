@@ -1,10 +1,10 @@
 from typing import Union, List
 from bs4 import BeautifulSoup, NavigableString, ResultSet
 
-from parser_metro.product_lists.urlproduct import UrlProduct
-from parser_metro.product_lists.iurlproduct import IUrlProduct
-from parser_metro.product_lists.iproductlist import IProductList
-from parser_metro.product_lists.productlisterror import NotFoundMainBlockProduct, NotFoundItemsProduct
+from parser_metro.catalog.product_lists.urlproduct import UrlProduct
+from parser_metro.catalog.product_lists.iurlproduct import IUrlProduct
+from parser_metro.catalog.product_lists.iproductlist import IProductList
+from parser_metro.catalog.product_lists.productlisterror import NotFoundMainBlockProduct, NotFoundItemsProduct
 
 
 class ProductList(IProductList):

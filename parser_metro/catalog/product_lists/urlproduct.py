@@ -1,8 +1,9 @@
 from typing import Union
 from bs4 import BeautifulSoup, NavigableString
 
-from parser_metro.product_lists.iurlproduct import IUrlProduct
-from parser_metro.product_lists.urlproducterror import NotFoundCatalogItemGroup, NotFoundCatalogItemDefaultImage, \
+from parser_metro.catalog.product_lists.iurlproduct import IUrlProduct
+from parser_metro.catalog.product_lists.urlproducterror import NotFoundCatalogItemGroup, \
+    NotFoundCatalogItemDefaultImage, \
     NotFoundUrl
 
 

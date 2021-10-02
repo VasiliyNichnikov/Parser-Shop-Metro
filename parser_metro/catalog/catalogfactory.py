@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
-from parser_metro.catalog import Catalog
-from parser_metro.product_lists.productlist import ProductList, IProductList
-from parser_metro.max_page.searchmaxpage import SearchMaxPage, ISearchMaxPage
+from parser_metro.catalog.catalog import Catalog
+from parser_metro.catalog.product_lists.productlist import ProductList, IProductList
+from parser_metro.catalog.max_page.searchmaxpage import SearchMaxPage, ISearchMaxPage
 
 
 class CatalogFactory:

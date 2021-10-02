@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 from tests.additional_methods import get_bs
 
-from parser_metro.max_page.searchmaxpage import SearchMaxPage
-from parser_metro.max_page.isearchmaxpage import ISearchMaxPage
+from parser_metro.catalog.max_page.searchmaxpage import SearchMaxPage
+from parser_metro.catalog.max_page.isearchmaxpage import ISearchMaxPage
 
 main_path: str = "../../static/html_files/"
 

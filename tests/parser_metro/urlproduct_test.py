@@ -1,8 +1,8 @@
 import pytest
 from bs4 import BeautifulSoup
-from parser_metro.product_lists.urlproducterror import NotFoundCatalogItemDefaultImage
-from parser_metro.product_lists.urlproduct import UrlProduct
-from parser_metro.product_lists.iurlproduct import IUrlProduct
+from parser_metro.catalog.product_lists.urlproducterror import NotFoundCatalogItemDefaultImage
+from parser_metro.catalog.product_lists.urlproduct import UrlProduct
+from parser_metro.catalog.product_lists.iurlproduct import IUrlProduct
 from tests.additional_methods import get_bs
 
 main_path = "../../static/html_files/"

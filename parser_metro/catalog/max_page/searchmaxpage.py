@@ -1,8 +1,8 @@
 from typing import Union, List
 from bs4 import BeautifulSoup, NavigableString, ResultSet
 
-from parser_metro.max_page.isearchmaxpage import ISearchMaxPage
-from parser_metro.max_page.searchmaxpageerror import NotFoundCatalogPagination, \
+from parser_metro.catalog.max_page.isearchmaxpage import ISearchMaxPage
+from parser_metro.catalog.max_page.searchmaxpageerror import NotFoundCatalogPagination, \
     NotFoundItemsCatalog, \
     NotFoundMaxPage
 

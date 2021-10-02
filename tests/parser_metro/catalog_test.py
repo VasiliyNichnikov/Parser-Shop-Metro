@@ -1,8 +1,8 @@
 import pytest
 
 from bs4 import BeautifulSoup
-from parser_metro.catalog import Catalog
-from parser_metro.catalogfactory import CatalogFactory
+from parser_metro.catalog.catalog import Catalog
+from parser_metro.catalog.catalogfactory import CatalogFactory
 from tests.additional_methods import get_bs
 
 main_path = "../../static/html_files/"
