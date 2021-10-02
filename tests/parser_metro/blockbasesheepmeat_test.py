@@ -1,63 +1,40 @@
 import pytest
+# noinspection PyUnresolvedReferences
+from init_blocks import block_base
 
-from tests.workingwithfiles import get_html_code
-
-from bs4 import BeautifulSoup
-from parser_metro.product.block_base.blockbase import BlockBase
+from parser_metro.product.block_base.blockbase import IBlockBase
 from parser_metro.product.block_base.blockbaseerror import NotFindPageDesc
 
-main_path_sheepmeat: str = "../../static/html_files/sheepmeat.html"
-path_sheepmeat_without_product_page_disc = "../../static/html_files/sheepmeat_without_product_page_desc.html"
+main_path: str = "../../static/html_files/"
 
 
-@pytest.fixture()
-def init_block_base() -> BlockBase:
-    html_code: str = get_html_code(main_path_sheepmeat)
-
-    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
-    block_base: BlockBase = BlockBase(bs)
-    return block_base
-
-
-@pytest.fixture()
-def init_block_base_without_product_page_disc() -> BlockBase:
-    html_code: str = get_html_code(path_sheepmeat_without_product_page_disc)
-
-    bs: BeautifulSoup = BeautifulSoup(html_code, "lxml")
-    block_base: BlockBase = BlockBase(bs)
-    return block_base
-
-
-def test_get_title(init_block_base) -> None:
-    # ARRANGE
-    block_base: BlockBase = init_block_base
+@pytest.mark.parametrize("block_base", [main_path + "sheepmeat.html"], indirect=["block_base"])
+def test_get_title(block_base: IBlockBase) -> None:
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.title == "Баранина для плова охлажденная вакуумная упаковка МЯСО ЕСТЬ!"
 
 
-def test_get_code(init_block_base) -> None:
-    # ARRANGE
-    block_base: BlockBase = init_block_base
+@pytest.mark.parametrize("block_base", [main_path + "sheepmeat.html"], indirect=["block_base"])
+def test_get_code(block_base: IBlockBase) -> None:
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.code == "563516"
 
 
-def test_get_brand(init_block_base) -> None:
-    # ARRANGE
-    block_base: BlockBase = init_block_base
+@pytest.mark.parametrize("block_base", [main_path + "sheepmeat.html"], indirect=["block_base"])
+def test_get_brand(block_base: IBlockBase) -> None:
     # ACT
     block_base.search_data()
     # ASSERT
     assert block_base.brand == "МЯСО ЕСТЬ!"
 
 
-def test_catching_error_not_find_page_desc(init_block_base_without_product_page_disc):
-    # ARRANGE
-    block_base: BlockBase = init_block_base_without_product_page_disc
+@pytest.mark.parametrize("block_base", [main_path + "sheepmeat_without_product_page_desc.html"],
+                         indirect=["block_base"])
+def test_catching_error_not_find_page_desc(block_base: IBlockBase):
     # ACT
     with pytest.raises(NotFindPageDesc):
         block_base.search_data()

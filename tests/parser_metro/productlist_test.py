@@ -1,6 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
-from tests.workingwithfiles import get_html_code
+from tests.additional_methods import get_html_code
 
 from parser_metro.product_lists.iproductlist import IProductList
 from parser_metro.product_lists.productlist import ProductList

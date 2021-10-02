@@ -1,7 +1,7 @@
 import pytest
 from bs4 import BeautifulSoup
 
-from tests.workingwithfiles import get_html_code
+from tests.additional_methods import get_bs
 
 from parser_metro.product_catalog.searchmaxpage import SearchMaxPage
 from parser_metro.product_catalog.isearchmax import ISearchMax
@@ -10,26 +10,27 @@ main_path: str = "../../static/html_files/"
 
 
 @pytest.fixture()
-def search_max_page(request) -> ISearchMax:
-    html_code: str = get_html_code(request.param)
-    bs: BeautifulSoup = BeautifulSoup(html_code)
+def search_max(request) -> ISearchMax:
+    bs: BeautifulSoup = get_bs(request.param)
     search_max: ISearchMax = SearchMaxPage(bs)
     return search_max
 
 
-@pytest.mark.parametrize('search_max_page', [main_path + "pancakes_without_old_price.html"],
-                         indirect=['search_max_page'])
-def test_search_max_page_with_html_code_right(search_max_page: ISearchMax) -> None:
+@pytest.mark.parametrize("search_max", [main_path + "list_product.html"],
+                         indirect=["search_max"])
+def test_search_max_page_with_html_code_right(search_max: ISearchMax) -> None:
     # ACT
-    search_max_page.search_data()
+    search_max.search_data()
     # ASSERT
-    assert search_max_page.max_page == 34
+    assert search_max.max_page == 34
 
 
-@pytest.mark.parametrize('search_max_page', [main_path + "pancakes_without_old_price.html"],
-                         indirect=['search_max_page'])
-def test_search_max_page_with_html_code_without_catalog_items(search_max_page: ISearchMax) -> None:
+@pytest.mark.parametrize("search_max", [main_path + "list_product_without_catalog_item.html"],
+                         indirect=["search_max"])
+def test_search_max_page_with_html_code_without_catalog_items(search_max: ISearchMax) -> None:
     # ACT
-    search_max_page.search_data()
+    search_max.search_data()
     # ASSERT
-    assert search_max_page.max_page == 1
+    assert search_max.max_page == 1
+
+

@@ -2,16 +2,20 @@ import pytest
 
 from parser_metro.product.product import Product
 from parser_metro.product.productfactory import ProductFactory
-from tests.workingwithfiles import get_html_code
+from tests.additional_methods import get_html_code
 
-path_pancakes: str = "../../static/html_files/pancakes.html"
-path_sheepmeat_without_product_page_disc: str = "../../static/html_files/sheepmeat_without_product_page_desc.html"
+main_path: str = "../../static/html_files/"
 
 
-def test_initialization_blocks():
-    # ARRANGE
-    html_code: str = get_html_code(path_pancakes)
+@pytest.fixture()
+def product(request) -> Product:
+    html_code: str = get_html_code(request.param)
     product: Product = ProductFactory.build(html_code)
+    return product
+
+
+@pytest.mark.parametrize("product", [main_path + "pancakes.html"], indirect=["product"])
+def test_initialization_blocks(product: Product):
     # ACT
     product.init_blocks()
     # ASSERT
@@ -21,10 +25,8 @@ def test_initialization_blocks():
     assert product.price[0] is True
 
 
-def test_initialization_blocks_with_error_in_base():
-    # ARRANGE
-    html_code: str = get_html_code(path_sheepmeat_without_product_page_disc)
-    product: Product = ProductFactory.build(html_code)
+@pytest.mark.parametrize("product", [main_path + "sheepmeat_without_product_page_desc.html"], indirect=["product"])
+def test_initialization_blocks_with_error_in_base(product: Product):
     # ACT
     product.init_blocks()
     # ASSERT
