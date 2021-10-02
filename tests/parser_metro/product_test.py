@@ -1,16 +1,17 @@
 import pytest
 
+from bs4 import BeautifulSoup
 from parser_metro.product.product import Product
 from parser_metro.product.productfactory import ProductFactory
-from tests.additional_methods import get_html_code
+from tests.additional_methods import get_bs
 
 main_path: str = "../../static/html_files/"
 
 
 @pytest.fixture()
 def product(request) -> Product:
-    html_code: str = get_html_code(request.param)
-    product: Product = ProductFactory.build(html_code)
+    bs: BeautifulSoup = get_bs(request.param)
+    product: Product = ProductFactory.build(bs)
     return product
 
 

@@ -8,9 +8,7 @@ from parser_metro.product.product import Product
 
 class ProductFactory:
     @staticmethod
-    def build(html: str) -> Product:
-        bs: BeautifulSoup = BeautifulSoup(html, "lxml")
-
+    def build(bs: BeautifulSoup) -> Product:
         block_base: IBlockBase = BlockBase(bs)
         block_images: IBlockImages = BlockImages(bs)
         block_specifications: IBlockSpecifications = BlockSpecifications(bs)

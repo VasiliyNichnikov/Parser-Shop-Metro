@@ -9,5 +9,5 @@ class IProductList(ABC):
         pass
 
     @abstractmethod
-    def search_urls_product(self) -> None:
+    def search_data(self) -> None:
         pass

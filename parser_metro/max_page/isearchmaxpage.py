@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class ISearchMax(ABC):
+class ISearchMaxPage(ABC):
     @property
     @abstractmethod
     def max_page(self) -> int:

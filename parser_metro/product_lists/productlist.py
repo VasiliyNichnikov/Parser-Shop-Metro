@@ -16,7 +16,7 @@ class ProductList(IProductList):
         self.__bs = bs
         self.__urls_product: List = []
 
-    def search_urls_product(self) -> None:
+    def search_data(self) -> None:
         self.__find_block_products()
         self.__find_items_product()
         self.__urls_product = self.__find_urls_product()
