@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
 
-class ICatalogList(ABC):
+class ISearchMax(ABC):
     @property
     @abstractmethod
     def max_page(self) -> int:
         pass
 
     @abstractmethod
-    def search_max_page(self) -> None:
+    def search_data(self) -> None:
         pass

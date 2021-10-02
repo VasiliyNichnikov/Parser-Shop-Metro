@@ -321,21 +321,25 @@ html_code_without_catalog_default_image: str = """<div data-productid="641098" c
 ready_url: str = "https://msk.metro-cc.ru/category/rybnye/krabovoe-myaso-palochki/myaso-krabovoe-metro-chef-200-g"
 
 
-def test_search_url_then_html_code_right() -> None:
-    # ARRANGE
-    bs4: BeautifulSoup = BeautifulSoup(html_code_right, "lxml")
+@pytest.fixture()
+def url_product(request) -> IUrlProduct:
+    bs4: BeautifulSoup = BeautifulSoup(request.param, "lxml")
     url_product: IUrlProduct = UrlProduct(bs4)
+    return url_product
+
+
+@pytest.mark.parametrize('url_product', [html_code_right],
+                         indirect=['url_product'])
+def test_search_url_then_html_code_right(url_product: IUrlProduct) -> None:
     # ACT
     url_product.search_url()
     # ACCESS
     assert url_product.url == ready_url
 
 
-def test_search_url_then_html_code_without_catalog_default_image() -> None:
-    # ARRANGE
-    bs4: BeautifulSoup = BeautifulSoup(html_code_without_catalog_default_image, "lxml")
-    url_product: IUrlProduct = UrlProduct(bs4)
+@pytest.mark.parametrize('url_product', [html_code_without_catalog_default_image],
+                         indirect=['url_product'])
+def test_search_url_then_html_code_without_catalog_default_image(url_product: IUrlProduct) -> None:
     # ACT
     with pytest.raises(NotFoundCatalogItemDefaultImage):
         url_product.search_url()
-

@@ -1,13 +1,13 @@
 from typing import Union, List
 from bs4 import BeautifulSoup, NavigableString, ResultSet
 
-from parser_metro.product_catalog.icataloglist import ICatalogList
-from parser_metro.product_catalog.cataloglisterror import NotFoundCatalogPagination, \
+from parser_metro.product_catalog.isearchmax import ISearchMax
+from parser_metro.product_catalog.searchmaxpageerror import NotFoundCatalogPagination, \
     NotFoundItemsCatalog, \
     NotFoundMaxPage
 
 
-class CatalogList(ICatalogList):
+class SearchMaxPage(ISearchMax):
     @property
     def max_page(self) -> int:
         return self.__max_page
@@ -16,7 +16,7 @@ class CatalogList(ICatalogList):
         self.__bs = bs
         self.__max_page = 0
 
-    def search_max_page(self) -> None:
+    def search_data(self) -> None:
         self.__find_catalog_pagination()
         self.__find_items_catalog()
         self.__max_page: int = self.__find_max_page()
