@@ -11,6 +11,8 @@ from parser_metro.meal.additionalimages import AdditionalImages
 from parser_metro.meal.articleimages import ArticleImages
 from parser_metro.meal.brand import Brand
 from parser_metro.meal.annotation import Annotation
+from parser_metro.meal.informationspecificationkey import InformationSpecificationKey
+from parser_metro.meal.packingparameters import PackingParameters
 
 
 class Meal:
@@ -76,6 +78,69 @@ class Meal:
         if condition:
             return Annotation(specification).get()
         return "0"
+
+    @property
+    def type_product(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "тип").get()
+        return "0"
+
+    @property
+    def minimum_storage_temperature(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "минимальная температура хранения,").get()
+        return "0"
+
+    @property
+    def maximum_storage_temperature(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "максимальная температура хранения,").get()
+        return "0"
+
+    @property
+    def structure(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "состав").get()
+        return "0"
+
+    @property
+    def weight(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "вес, гр").get()
+        return "0"
+
+    @property
+    def shelf_life(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "срок годности, дн").get()
+        return "0"
+
+    @property
+    def packing_width(self) -> float:
+        condition, specification = self.__product.specifications
+        if condition:
+            return PackingParameters(specification, "ширина упаковки, см").get()
+        return 0
+
+    @property
+    def packing_height(self) -> float:
+        condition, specification = self.__product.specifications
+        if condition:
+            return PackingParameters(specification, "высота упаковки, см").get()
+        return 0
+
+    @property
+    def packing_length(self) -> float:
+        condition, specification = self.__product.specifications
+        if condition:
+            return PackingParameters(specification, "длина упаковки, см").get()
+        return 0
 
     def __init__(self, product: Product):
         self.__product = product
