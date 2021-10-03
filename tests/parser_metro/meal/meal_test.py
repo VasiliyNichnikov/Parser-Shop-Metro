@@ -35,7 +35,7 @@ def test_init_product_calf_is_shin(meal: Meal):
     assert meal.maximum_storage_temperature == "4"
     assert meal.structure == "0"
     assert meal.weight == "400"
-    assert meal.shelf_life == "12"
+    assert meal.shelf_life == 12
     assert meal.packing_width == 0
     assert meal.packing_height == 0
     assert meal.packing_length == 0
@@ -59,7 +59,7 @@ def test_init_product_case_losing_weight_in_week(meal: Meal):
     assert meal.maximum_storage_temperature == "0"
     assert meal.structure == "0"
     assert meal.weight == "0"
-    assert meal.shelf_life == "0"
+    assert meal.shelf_life == 0
     assert meal.packing_width == 0
     assert meal.packing_height == 0
     assert meal.packing_length == 0
@@ -83,7 +83,34 @@ def test_init_product_water_rioba(meal: Meal):
     assert meal.maximum_storage_temperature == "0"
     assert meal.structure == "0"
     assert meal.weight == "0"
-    assert meal.shelf_life == "0"
+    assert meal.shelf_life == 0
     assert meal.packing_width == 0
     assert meal.packing_height == 0
     assert meal.packing_length == 0
+
+
+@pytest.mark.parametrize("meal", [main_path + "crab_sticks.html"], indirect=["meal"])
+def test_init_product_crab_sticks(meal: Meal):
+    # ACT
+    meal.init_product()
+    # ARRANGE
+    assert meal.article_number == 395951
+    assert meal.name == "Крабовые палочки Metro Chef, 1 кг"
+    assert meal.price == 253.05
+    assert meal.price_without_discount == 0
+    assert meal.main_image == "https://cdn.metro-cc.ru/ru/ru_pim_471684001001_01.png?maxwidth=480&maxheight=460&format=jpg&quality=80"
+    assert meal.additional_images == []
+    assert meal.article_images == ["471684001001"]
+    assert meal.brand == "METRO CHEF"
+    assert meal.type_product == "крабовые палочки"
+    assert meal.minimum_storage_temperature == "-18"
+    assert meal.maximum_storage_temperature == "-18"
+    assert meal.structure == "Фарш рыбный (сурими) - 21,5%: мясо рыбы - 94% (К-джонии, Э-заурида-есо, И-нитепер, Л-лептуракан малоголовый, С-пятнистый стрижехвост, КК-бычий глаз), сахар, яичный белок, стабилизаторы: пирофосфаты, полифосфаты вода питьевая, крахмалы: картофельный, пшеничный мука пшеничная в/с, соль поваренная, ароматизаторы (содержат натуральные экстракты краба, креветки, устрицы), масло подсолнечное рафинированное дезодорированное, стабилизатор каррагинан, загуститель альгинат натрия, усилитель вкуса и аромата глутамат натрия, красители натуральные: диоксид титана, кармины, экстракт паприки".lower()
+    assert meal.weight == "1000"
+    assert meal.shelf_life == 16679
+    assert meal.packing_width == 0
+    assert meal.packing_height == 0
+    assert meal.packing_length == 0
+    assert meal.country == "беларусь"
+    assert meal.energy_value == "102"
+    assert meal.type_of_packaging == "вакуумная упаковка"

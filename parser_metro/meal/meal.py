@@ -11,6 +11,7 @@ from parser_metro.meal.additionalimages import AdditionalImages
 from parser_metro.meal.articleimages import ArticleImages
 from parser_metro.meal.brand import Brand
 from parser_metro.meal.annotation import Annotation
+from parser_metro.meal.expirationdate import ExpirationDate
 from parser_metro.meal.informationspecificationkey import InformationSpecificationKey
 from parser_metro.meal.packingparameters import PackingParameters
 
@@ -115,11 +116,11 @@ class Meal:
         return "0"
 
     @property
-    def shelf_life(self) -> str:
+    def shelf_life(self) -> int:
         condition, specification = self.__product.specifications
         if condition:
-            return InformationSpecificationKey(specification, "срокгодности,дн").get()
-        return "0"
+            return ExpirationDate(specification, "срокгодности,дн", "срокгодности,мес").get()
+        return 0
 
     @property
     def packing_width(self) -> float:
@@ -141,6 +142,27 @@ class Meal:
         if condition:
             return PackingParameters(specification, "длинаупаковки,см").get()
         return 0
+
+    @property
+    def country(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "страна").get()
+        return "0"
+
+    @property
+    def type_of_packaging(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "типупаковки").get()
+        return "0"
+
+    @property
+    def energy_value(self) -> str:
+        condition, specification = self.__product.specifications
+        if condition:
+            return InformationSpecificationKey(specification, "энергетическаяценность,ккал/100гр").get()
+        return "0"
 
     def __init__(self, product: Product):
         self.__product = product
