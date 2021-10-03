@@ -39,5 +39,4 @@ def test_sheepmeat_urls_additional(block_images: IBlockImages) -> None:
     block_images.search_data()
     # ASSERT
     assert block_images.urls_additional == [
-        "https://cdn.metro-cc.ru/ru/ru_pim_382497001001_01.png?maxheight=64&maxwidth=64&format=jpg&quality=80",
-        "https://cdn.metro-cc.ru/ru/ru_pim_382497001001_02.png?maxheight=64&maxwidth=64&format=jpg&quality=80"]
+        "https://cdn.metro-cc.ru/ru/ru_pim_382497001001_02.png?maxwidth=480&maxheight=460&format=jpg&quality=80"]

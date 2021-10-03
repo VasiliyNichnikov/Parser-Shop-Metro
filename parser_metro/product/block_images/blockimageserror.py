@@ -10,5 +10,9 @@ class NotPageSlideContainer(BlockImagesError):
     pass
 
 
-class NotPageSlideNav(BlockImagesError):
+class NotFindPageSwiperWrapper(BlockImagesError):
+    pass
+
+
+class NotFindPageUrlsImages(BlockImagesError):
     pass

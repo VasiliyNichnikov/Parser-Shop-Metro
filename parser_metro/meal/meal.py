@@ -90,14 +90,14 @@ class Meal:
     def minimum_storage_temperature(self) -> str:
         condition, specification = self.__product.specifications
         if condition:
-            return InformationSpecificationKey(specification, "минимальная температура хранения,").get()
+            return InformationSpecificationKey(specification, "минимальнаятемпературахранения,").get()
         return "0"
 
     @property
     def maximum_storage_temperature(self) -> str:
         condition, specification = self.__product.specifications
         if condition:
-            return InformationSpecificationKey(specification, "максимальная температура хранения,").get()
+            return InformationSpecificationKey(specification, "максимальнаятемпературахранения,").get()
         return "0"
 
     @property
@@ -111,35 +111,35 @@ class Meal:
     def weight(self) -> str:
         condition, specification = self.__product.specifications
         if condition:
-            return InformationSpecificationKey(specification, "вес, гр").get()
+            return InformationSpecificationKey(specification, "вес,гр").get()
         return "0"
 
     @property
     def shelf_life(self) -> str:
         condition, specification = self.__product.specifications
         if condition:
-            return InformationSpecificationKey(specification, "срок годности, дн").get()
+            return InformationSpecificationKey(specification, "срокгодности,дн").get()
         return "0"
 
     @property
     def packing_width(self) -> float:
         condition, specification = self.__product.specifications
         if condition:
-            return PackingParameters(specification, "ширина упаковки, см").get()
+            return PackingParameters(specification, "ширинаупаковки,см").get()
         return 0
 
     @property
     def packing_height(self) -> float:
         condition, specification = self.__product.specifications
         if condition:
-            return PackingParameters(specification, "высота упаковки, см").get()
+            return PackingParameters(specification, "высотаупаковки,см").get()
         return 0
 
     @property
     def packing_length(self) -> float:
         condition, specification = self.__product.specifications
         if condition:
-            return PackingParameters(specification, "длина упаковки, см").get()
+            return PackingParameters(specification, "длинаупаковки,см").get()
         return 0
 
     def __init__(self, product: Product):
