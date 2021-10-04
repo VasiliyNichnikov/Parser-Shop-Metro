@@ -59,6 +59,9 @@ def test_init_product_case_losing_weight_in_week(meal: Meal):
     assert meal.maximum_storage_temperature == "0"
     assert meal.structure == "0"
     assert meal.weight == "0"
+    assert meal.country == "россия"
+    assert meal.type_of_packaging == "0"
+    assert meal.energy_value == "0"
     assert meal.shelf_life == 0
     assert meal.packing_width == 0
     assert meal.packing_height == 0
@@ -87,6 +90,9 @@ def test_init_product_water_rioba(meal: Meal):
     assert meal.packing_width == 0
     assert meal.packing_height == 0
     assert meal.packing_length == 0
+    assert meal.country == "0"
+    assert meal.energy_value == "0"
+    assert meal.type_of_packaging == "0"
 
 
 @pytest.mark.parametrize("meal", [main_path + "crab_sticks.html"], indirect=["meal"])
