@@ -1,11 +1,11 @@
 from selenium import webdriver
 from requests import get, Response
 
-url: str = "https://msk.metro-cc.ru/category/myasnye/baranina/baranina-ohlazhdennaya/dlya-plova-vakuumnaya-upakovka-myaso-est"
+url: str = "https://msk.metro-cc.ru/category/rybnye/krabovoe-myaso-palochki/krabovye-metro-chef-1-kg"
 # response: Response = get(url)
 # page: str = response.text
 # print(page)
-path_file = "static/html_files/sheepmeat.html"
+path_file = "static/html_products/crab_sticks.html"
 
 
 with webdriver.Chrome("static/chromedriver.exe") as driver:

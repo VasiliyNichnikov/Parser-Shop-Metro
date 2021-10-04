@@ -1,14 +1,14 @@
 class SearchMaxPageError(Exception):
-    pass
+	pass
 
 
 class NotFoundCatalogPagination(SearchMaxPageError):
-    pass
+	pass
 
 
 class NotFoundItemsCatalog(SearchMaxPageError):
-    pass
+	pass
 
 
 class NotFoundMaxPage(SearchMaxPageError):
-    pass
+	pass

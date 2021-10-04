@@ -72,6 +72,6 @@ class BlockSpecifications(IBlockSpecifications):
             _value: Union[Tag, NavigableString] = spec.find("span")
             if _type is not None and _value is not None:
                 type_value: str = re.sub(r"\s+", '', _type.text).lower()
-                info_value: str = re.sub(r"\s+", '', _value.text).lower()
+                info_value: str = re.sub(r"\s+", ' ', _value.text).lower()
                 specifications[type_value] = info_value
         return specifications

@@ -1,10 +1,11 @@
+from typing import List
 from abc import ABC, abstractmethod
 
 
-class ISearchMax(ABC):
+class IProductList(ABC):
     @property
     @abstractmethod
-    def max_page(self) -> int:
+    def urls_product(self) -> List[str]:
         pass
 
     @abstractmethod
