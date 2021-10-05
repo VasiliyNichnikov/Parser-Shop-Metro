@@ -62,7 +62,7 @@ class BlockImages(IBlockImages):
             url: Union[Tag, NavigableString] = url_image.find("img", {"class": "product-page__slide-img"})
             if url is not None:
                 ready_url = url.get("src")
-                if result["main"] is "":
+                if result["main"] == "":
                     result["main"] = ready_url
                 else:
                     result["additional"].append(ready_url)

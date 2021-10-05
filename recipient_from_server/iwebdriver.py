@@ -1,8 +1,7 @@
-from typing import Any
 from selenium import webdriver
 from abc import ABC, abstractmethod
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from seleniumwire.webdriver import ChromeOptions
+from recipient_from_server.iproxy import IProxy
 
 
 class IWebDriver(ABC):
@@ -12,5 +11,5 @@ class IWebDriver(ABC):
         pass
 
     @abstractmethod
-    def create(self, options: Options, dc: DesiredCapabilities=None) -> None:
+    def create(self, options: ChromeOptions, proxy: IProxy = None) -> None:
         pass

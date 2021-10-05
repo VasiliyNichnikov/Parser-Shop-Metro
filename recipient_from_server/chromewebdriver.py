@@ -15,4 +15,8 @@ class ChromeWebDriver(IWebDriver):
         self.__driver = None
 
     def create(self, options: ChromeOptions, proxy: IProxy = None) -> None:
-        self.__driver = webdriver.Chrome(self.__path_driver, chrome_options=options, seleniumwire_options=proxy.options)
+        if options is None:
+            self.__driver = webdriver.Chrome(self.__path_driver)
+        else:
+            self.__driver = webdriver.Chrome(self.__path_driver, chrome_options=options,
+                                             seleniumwire_options=proxy.options)
