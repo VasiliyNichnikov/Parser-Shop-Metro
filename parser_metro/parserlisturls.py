@@ -13,14 +13,14 @@ class ParserListUrls:
 
     @property
     def max_page(self) -> int:
-        condition, max_page = self.__catalog.max_page
+        condition, search_max_page = self.__catalog.max_page
         if condition:
-            return max_page
+            return search_max_page.max_page
         return 0
 
     @property
     def urls(self) -> List[str]:
-        condition, urls_product = self.__catalog.max_page
+        condition, product_list = self.__catalog.product_list
         if condition:
-            return urls_product
+            return product_list.urls_product
         return []
