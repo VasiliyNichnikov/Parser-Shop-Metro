@@ -1,22 +1,24 @@
-from seleniumwire import webdriver
-from recipient_from_server.iproxy import IProxy
-from seleniumwire.webdriver import ChromeOptions
+from typing import Union
+from bs4 import BeautifulSoup
+from seleniumwire.webdriver import Chrome
 
 from recipient_from_server.iwebdriver import IWebDriver
 
 
 class ChromeWebDriver(IWebDriver):
-    @property
-    def driver(self) -> webdriver.Chrome:
-        return self.__driver
-
     def __init__(self, path_driver: str) -> None:
         self.__path_driver = path_driver
+        self.__driver: Union[None, Chrome] = None
+
+    def get_page_bs(self, url: str) -> BeautifulSoup:
+        if self.__driver is None:
+            self.__create()
+        self.__driver.get(url)
+        return BeautifulSoup(self.__driver.page_source, "lxml")
+
+    def close(self) -> None:
+        self.__driver.close()
         self.__driver = None
 
-    def create(self, options: ChromeOptions, proxy: IProxy = None) -> None:
-        if options is None:
-            self.__driver = webdriver.Chrome(self.__path_driver)
-        else:
-            self.__driver = webdriver.Chrome(self.__path_driver, chrome_options=options,
-                                             seleniumwire_options=proxy.options)
+    def __create(self) -> None:
+        self.__driver = Chrome(self.__path_driver)
