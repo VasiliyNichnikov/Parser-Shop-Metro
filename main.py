@@ -10,13 +10,3 @@ if __name__ == "__main__":
     parser = Parser(driver, url)
     parser.run()
     driver.close()
-    # p = Parser(driver, )
-    # p.search_data()
-    # for i in range(100000):
-    #     try:
-    #         for url in p.urls:
-    #             print(url)
-    #             test_product = ParserProduct(driver, url)
-    #             test_product.run()
-    #     except:
-    #         print("Error")
