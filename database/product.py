@@ -1,3 +1,3 @@
-class RecipientHtmlPageByURL:
+class Product:
     def __init__(self):
         pass

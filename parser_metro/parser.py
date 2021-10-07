@@ -12,7 +12,7 @@ class Parser:
 
     def run(self) -> None:
         for page in range(1, self.__max_page + 1):
-            url_page = self.__url + f"&page={page}"
+            url_page: str = self.__url + f"&page={page}"
             urls_products: List[str] = ParserListUrls(self.__driver, url_page).urls
             print(f"Page: {page}; Urls: {urls_products}; Number urls: {len(urls_products)}")
             for url in urls_products:
