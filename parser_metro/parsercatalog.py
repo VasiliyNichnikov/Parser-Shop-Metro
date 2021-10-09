@@ -4,10 +4,11 @@ from recipient_from_server.iwebdriver import IWebDriver
 from parser_metro.catalog.catalogfactory import CatalogFactory, Catalog
 
 
-class ParserListUrls:
+class ParserCatalog:
     def __init__(self, driver: IWebDriver, url: str) -> None:
         self.__driver: IWebDriver = driver
         self.__bs: Union[BeautifulSoup, None] = self.__driver.get_page_bs(url)
+
         self.__catalog: Catalog = CatalogFactory.build(self.__bs)
         self.__catalog.init_max_page_and_product_list()
 
