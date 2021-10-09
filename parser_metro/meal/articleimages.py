@@ -14,5 +14,8 @@ class ArticleImages(IParameter):
 
     @staticmethod
     def __get_article_url(url: str) -> str:
-        part_two: str = url.split('_pim_')[1]
-        return part_two.split('_')[0]
+        parts: List[str] = url.split('_pim_')
+        if len(parts) > 0:
+            part_two: str = parts[1]
+            return part_two.split('_')[0]
+        return ""

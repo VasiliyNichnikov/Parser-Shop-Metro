@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, orm
 from database.db_session import SqlAlchemyBase
 
 
@@ -15,8 +15,8 @@ class AdMetro(SqlAlchemyBase):
     PACKING_HEIGHT = Column(Float, nullable=True)
     PACKING_LENGTH = Column(Float, nullable=True)
     MAIN_IMAGE = Column(String, nullable=True)
-    ADDITIONAL_IMAGES = Column(String, nullable=True)
-    ARTICLE_IMAGES = Column(String, nullable=True)
+    ADDITIONAL_IMAGES = orm.relation("AdditionalImages", back_populates="AD_METRO")
+    ARTICLE_IMAGES = orm.relation("ArticleImages", back_populates="AD_METRO")
     TYPE_PRODUCT = Column(String, nullable=True)
     TYPE_OF_PACKAGING = Column(String, nullable=True)
     MINIMUM_STORAGE_TEMPERATURE = Column(String, nullable=True)

@@ -20,9 +20,9 @@ def global_init(db_file):
     print(f'Подключение к базе данных по адресу {conn_str}')
 
     engine = sa.create_engine(conn_str, echo=False)
-    __factory = orm.sessionmaker(bind=engine)
+    __factory = Session(bind=engine)
 
-    from . import __all_models
+    from database import __all_models
 
     SqlAlchemyBase.metadata.create_all(engine)
 
