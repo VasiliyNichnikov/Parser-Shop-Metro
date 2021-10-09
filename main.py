@@ -9,6 +9,7 @@ url: str = "https://msk.metro-cc.ru/search?q=мясо"
 if __name__ == "__main__":
     db_session.global_init(path_database)
     driver: IWebDriver = ChromeWebDriver(path_driver)
-    parser = Parser(driver, url)
+    parser = Parser(driver, url, 10, 10)
     parser.run()
+
     driver.close()

@@ -5,12 +5,15 @@ from recipient_from_server.chromewebdriver import IWebDriver
 
 
 class Parser:
-    def __init__(self, driver: IWebDriver, default_url: str) -> None:
+    def __init__(self, driver: IWebDriver, default_url: str, number_attempts_in_case_of_error: int,
+                 delay_after_error: int) -> None:
         self.__url = default_url
         self.__driver = driver
+        self.__number_attempts_in_case_of_error = number_attempts_in_case_of_error
+        self.__delay_after_error = delay_after_error
 
     def run(self) -> None:
-        catalog = ParserCatalog(self.__driver, self.__url)
+        catalog = self.__get_catalog(self.__url)
 
         for page in range(2, catalog.max_page + 1):
             urls_products: List[str] = catalog.urls
@@ -21,4 +24,7 @@ class Parser:
                 parser_product.run()
 
             url_page = self.__url + f"&page={page}"
-            catalog = ParserCatalog(self.__driver, url_page)
+            catalog = self.__get_catalog(url_page)
+
+    def __get_catalog(self, url: str) -> ParserCatalog:
+        return ParserCatalog(self.__driver, url, self.__number_attempts_in_case_of_error, self.__delay_after_error)
