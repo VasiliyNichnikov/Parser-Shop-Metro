@@ -11,5 +11,4 @@ if __name__ == "__main__":
     driver: IWebDriver = ChromeWebDriver(path_driver)
     parser = Parser(driver, url, 10, 10)
     parser.run()
-
     driver.close()
