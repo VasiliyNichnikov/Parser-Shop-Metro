@@ -1,10 +1,1 @@
-{
-  "urls": ["1", "2", "3"],
-  "number_attempts_in_case_of_error": 0,
-  "delay_after_error": 0,
-  "hide_browser": false,
-  "path_database": "static/database/",
-  "path_excel": "static/excel/",
-  "path_webdriver": "static/chromedriver",
-  "path_interface": "static/interface/main.ui"
-}
+{"urls": ["https://perm.metro-cc.ru/search?q=\u043c\u044f\u0441\u043e"], "number_attempts_in_case_of_error": 0, "delay_after_error": 0, "hide_browser": false, "path_database": "static/database/", "path_excel": "static/excel/", "path_webdriver": "static/chromedriver.exe", "path_interface": "static/interface/main.ui"}

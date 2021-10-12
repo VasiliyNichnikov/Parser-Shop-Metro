@@ -29,3 +29,8 @@ def global_init(db_file):
 def create_session() -> Session:
     global __factory
     return __factory
+
+
+def close_session() -> None:
+    global __factory
+    __factory = None

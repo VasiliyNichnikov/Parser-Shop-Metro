@@ -14,13 +14,15 @@ class Parser:
 
     def run(self) -> None:
         catalog = self.__get_catalog(self.__url)
-
-        for page in range(2, catalog.max_page + 1):
+        # 2, catalog.max_page + 1
+        for page in range(2, 3):
             urls_products: List[str] = catalog.urls
             print(f"Page: {page}; Urls: {urls_products}; Number urls: {len(urls_products)}")
             for url in urls_products:
                 print(f"Url product: {url}")
-                parser_product = ParserProduct(self.__driver, url)
+                parser_product = ParserProduct(self.__driver, url,
+                                               self.__number_attempts_in_case_of_error,
+                                               self.__delay_after_error)
                 parser_product.run()
 
             url_page = self.__url + f"&page={page}"

@@ -14,7 +14,7 @@ class UrlProduct(IUrlProduct):
 
     def __init__(self, block: Union[BeautifulSoup, NavigableString]):
         self.__block = block
-        self.__first_part_url = "https://msk.metro-cc.ru"
+        self.__first_part_url = "https://perm.metro-cc.ru"
         self.__url = ""
 
     def search_url(self) -> None:

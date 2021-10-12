@@ -1,10 +1,15 @@
+import os
 import sys
 import typing
-
-from PyQt5 import QtWidgets, uic, QtGui, QtCore
-from convertor.convertor_json import sterilization_from_parameters, deserialization_to_parameters
+import threading
+from database import db_session
 from parameters import Parameters
+from parser_metro.parser import Parser
+from PyQt5 import QtWidgets, uic, QtGui, QtCore
+from convertor.from_db_to_excel import create_excel
 from PyQt5.QtWidgets import QMainWindow, QInputDialog, QFileDialog
+from recipient_from_server.chromewebdriver import IWebDriver, ChromeWebDriver
+from convertor.convertor_json import sterilization_from_parameters, deserialization_to_parameters
 
 
 class Program(QMainWindow):
@@ -14,6 +19,9 @@ class Program(QMainWindow):
 
     def load_interface(self) -> None:
         uic.loadUi(self.__parameters.path_interface, self)
+
+    def clear_database(self) -> None:
+        self.__remove_folder_database(self.__parameters.path_database)
 
     def connect_buttons(self) -> None:
         self.button_add_url.clicked.connect(self.__add_url)
@@ -46,6 +54,39 @@ class Program(QMainWindow):
 
     def __launcher(self) -> None:
         self.__save_parameters()
+        self.__change_enabled_buttons(False)
+        thread = threading.Thread(target=self.__run_parser)
+        thread.start()
+
+    def __run_parser(self) -> None:
+        name_file = "result_parser"
+        path_database = self.__parameters.path_database
+        path_driver = self.__parameters.path_webdriver
+        path_excel = self.__parameters.path_excel
+        number_attempts_in_case_of_error = self.__parameters.number_attempts_in_case_of_error
+        delay_after_error = self.__parameters.delay_after_error
+
+        db_session.global_init(path_database + name_file + ".db")
+
+        for number_url in range(len(self.__parameters.urls)):
+            driver: IWebDriver = ChromeWebDriver(path_driver, number_attempts_in_case_of_error, delay_after_error)
+            url = self.__parameters.urls[number_url]
+
+            parser = Parser(driver, url, number_attempts_in_case_of_error, delay_after_error)
+            parser.run()
+            driver.close()
+        create_excel(path_excel=path_excel, name=name_file)
+        db_session.close_session()
+        print("Parser end")
+        self.__remove_folder_database(path_database)
+        self.__change_enabled_buttons(True)
+
+    @staticmethod
+    def __remove_folder_database(path_database: str):
+        if os.path.exists(path_database):
+            files = os.listdir(path_database)
+            for file in files:
+                os.remove(path_database + file)
 
     def __select_catalog_for_excel(self) -> None:
         path_excel = QFileDialog.getExistingDirectory(self, "Выбрать папку для сохранения excel:",
@@ -77,6 +118,7 @@ if __name__ == '__main__':
     program = Program(settings)
     program.load_interface()
     program.load_values_interface()
+    program.clear_database()
     program.connect_buttons()
     program.show()
 

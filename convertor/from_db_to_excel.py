@@ -1,9 +1,10 @@
 import pandas as pd
+from database.db_session import create_session
 from database.ad_metro import AdMetro
-from sqlalchemy.orm import Session
 
 
-def create_excel(session: Session, path_excel, name) -> None:
+def create_excel(path_excel, name) -> None:
+    session = create_session()
     df = pd.DataFrame()
 
     df['№'] = [i[0] for i in session.query(AdMetro.ID).all()]
@@ -31,7 +32,8 @@ def create_excel(session: Session, path_excel, name) -> None:
     df['Страна изготовитель'] = [i[0] for i in session.query(AdMetro.COUNTRY).all()]
     df['Энергетическая ценность в 100г'] = [i[0] for i in session.query(AdMetro.ENERGY_VALUE).all()]
 
-    writer = pd.ExcelWriter(path_excel + f'{name}.xlsx', engine='xlsxwriter', options={'strings_to_urls': False})
+    writer = pd.ExcelWriter(path_excel + f'{name}.xlsx', engine='xlsxwriter',
+                            engine_kwargs={'options': {"strings_to_urls": False}})
     df.to_excel(writer, sheet_name='Шаблон для поставщика', index=False)
     worksheet = writer.sheets['Шаблон для поставщика']
 
@@ -62,3 +64,4 @@ def create_excel(session: Session, path_excel, name) -> None:
         worksheet.write(0, col_num, value)
     print('Файл сохранен в excel')
     writer.save()
+    session.close()

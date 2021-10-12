@@ -77,3 +77,4 @@ class ParserProduct:
         session.add(ad_metro)
 
         session.commit()
+        session.close()
