@@ -1,29 +1,32 @@
 import sys
 from PyQt5 import QtWidgets, uic
+from convertor.convertor_json import sterilization, deserialization
+from parameters import Parameters
 from PyQt5.QtWidgets import QMainWindow, QListWidgetItem
 
 
 class Program(QMainWindow):
-    def __init__(self) -> None:
+    def __init__(self, parameters: Parameters) -> None:
         super().__init__()
-        self.window_opened = False
-        # self.ui = Ui_MainWindow()
+        self.__parameters = parameters
 
     def load_interface(self) -> None:
-        uic.loadUi("static/interface/main.ui", self)
-        # self.ui.setupUi(self)
-        # self.setWindowTitle("Парсер сайтов")
+        uic.loadUi(self.__parameters.path_interface, self)
 
     def connect_buttons(self) -> None:
         pass
-        # button_add_item = self.__add_item_button(ButtonAddItem())
-        # button_add_item.button_add.clicked.connect(self.__open_widget_add_site)
+
+    def __add_url(self) -> None:
+        pass
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
 
-    program = Program()
+    path_settings = "static/settings.json"
+    settings = deserialization(path_settings)
+
+    program = Program(settings)
     program.load_interface()
     program.connect_buttons()
     program.show()

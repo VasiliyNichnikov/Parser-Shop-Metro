@@ -3,8 +3,8 @@
   "number_attempts_in_case_of_error": 0,
   "delay_after_error": 0,
   "hide_browser": false,
-  "path_database": "",
-  "path_excel": "",
-  "path_webdriver": "",
-  "path_interface": ""
+  "path_database": "static/database/",
+  "path_excel": "static/excel/",
+  "path_webdriver": "static/chromedriver",
+  "path_interface": "static/interface/main.ui"
 }
