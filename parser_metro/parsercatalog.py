@@ -6,7 +6,8 @@ from parser_metro.catalog.catalogfactory import CatalogFactory, Catalog
 
 
 class ParserCatalog:
-    def __init__(self, driver: IWebDriver, url: str, number_attempts_in_case_of_error: int,
+    def __init__(self, driver: IWebDriver, url: str,
+                 number_attempts_in_case_of_error: int,
                  delay_after_error: int) -> None:
         self.__driver: IWebDriver = driver
         self.__url = url

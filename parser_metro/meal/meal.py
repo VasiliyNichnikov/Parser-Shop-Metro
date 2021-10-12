@@ -169,3 +169,7 @@ class Meal:
 
     def init_product(self):
         self.__product.init_blocks()
+
+    def get_condition_base_block(self) -> bool:
+        condition, base = self.__product.base
+        return condition

@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from time import sleep
 from parser_metro.product.product import Product
 from parser_metro.meal.meal import Meal
 from recipient_from_server.iwebdriver import IWebDriver
@@ -6,23 +7,48 @@ from parser_metro.product.productfactory import ProductFactory
 from typing import Union
 from database import db_session
 from database.ad_metro import AdMetro
-from database.additional_images import AdditionalImages
-from database.article_images import ArticleImages
 
 
 class ParserProduct:
-    def __init__(self, driver: IWebDriver, url: str) -> None:
-        self.__driver: IWebDriver = driver
-        self.__bs: Union[BeautifulSoup, None] = self.__driver.get_page_bs(url)
+    def __init__(self, driver: IWebDriver, url: str,
+                 number_attempts_in_case_of_error: int,
+                 delay_after_error: int) -> None:
+        self.__driver = driver
+        self.__url = url
+        self.__number_attempts_in_case_of_error = number_attempts_in_case_of_error
+        self.__delay_after_error = delay_after_error
 
     def run(self) -> None:
-        product: Product = ProductFactory.build(self.__bs)
-        meal: Meal = Meal(product)
-        meal.init_product()
+        meal: Meal = self.__get_meal()
         self.upload_product_to_database(meal)
 
+    def __get_meal(self) -> Meal:
+        bs: Union[BeautifulSoup, None] = self.__driver.get_page_bs(self.__url)
+
+        product: Product = ProductFactory.build(bs)
+        meal: Meal = Meal(product)
+        meal.init_product()
+        if not meal.get_condition_base_block() and self.__number_attempts_in_case_of_error > 0:
+            self.__number_attempts_in_case_of_error -= 1
+            sleep(self.__delay_after_error)
+            meal = self.__get_meal()
+        return meal
+
     @staticmethod
-    def upload_product_to_database(meal: Meal) -> None:
+    def __get_str_additional_images(meal) -> str:
+        if len(meal.additional_images) > 0:
+            result = '\n'.join(meal.additional_images)
+            return result
+        return "0"
+
+    @staticmethod
+    def __get_str_article_images(meal) -> str:
+        if len(meal.article_images) > 0:
+            result = '\n'.join(meal.article_images)
+            return result
+        return "0"
+
+    def upload_product_to_database(self, meal: Meal) -> None:
         session = db_session.create_session()
 
         ad_metro = AdMetro(
@@ -35,6 +61,8 @@ class ParserProduct:
             PACKING_HEIGHT=meal.packing_height,
             PACKING_LENGTH=meal.packing_length,
             MAIN_IMAGE=meal.main_image,
+            ADDITIONAL_IMAGES=self.__get_str_additional_images(meal),
+            ARTICLE_IMAGES=self.__get_str_article_images(meal),
             TYPE_PRODUCT=meal.type_product,
             TYPE_OF_PACKAGING=meal.type_of_packaging,
             MINIMUM_STORAGE_TEMPERATURE=meal.minimum_storage_temperature,
@@ -47,12 +75,5 @@ class ParserProduct:
             ENERGY_VALUE=meal.energy_value
         )
         session.add(ad_metro)
-        for additional_image in meal.additional_images:
-            additional_image_table = AdditionalImages(IMAGE=additional_image)
-            ad_metro.ADDITIONAL_IMAGES.append(additional_image_table)
-
-        for article_image in meal.article_images:
-            article_image_table = ArticleImages(ARTICLE=article_image)
-            ad_metro.ARTICLE_IMAGES.append(article_image_table)
 
         session.commit()
