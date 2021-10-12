@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, uic
-from convertor.convertor_json import sterilization, deserialization
+from convertor.convertor_json import sterilization_from_parameters, deserialization_to_parameters
 from parameters import Parameters
 from PyQt5.QtWidgets import QMainWindow, QListWidgetItem
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication([])
 
     path_settings = "static/settings.json"
-    settings = deserialization(path_settings)
+    settings = deserialization_to_parameters(path_settings)
 
     program = Program(settings)
     program.load_interface()

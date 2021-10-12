@@ -2,7 +2,7 @@ import json
 from parameters import Parameters
 
 
-def sterilization(path_json, parameters: Parameters) -> None:
+def sterilization_from_parameters(path_json, parameters: Parameters) -> None:
     data: dict = {
         "urls": parameters.urls,
         "number_attempts_in_case_of_error": parameters.number_attempts_in_case_of_error,
@@ -17,7 +17,7 @@ def sterilization(path_json, parameters: Parameters) -> None:
         json.dump(data, write_file)
 
 
-def deserialization(path_json) -> Parameters:
+def deserialization_to_parameters(path_json) -> Parameters:
     with open(path_json, "r") as read_file:
         data = json.load(read_file)
         return Parameters(data)
