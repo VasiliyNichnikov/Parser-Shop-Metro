@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMainWindow, QListWidgetItem
 
 
@@ -10,7 +10,7 @@ class Program(QMainWindow):
         # self.ui = Ui_MainWindow()
 
     def load_interface(self) -> None:
-        pass
+        uic.loadUi("static/interface/main.ui", self)
         # self.ui.setupUi(self)
         # self.setWindowTitle("Парсер сайтов")
 

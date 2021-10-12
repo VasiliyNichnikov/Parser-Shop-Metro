@@ -5,5 +5,6 @@
   "hide_browser": false,
   "path_database": "",
   "path_excel": "",
-  "path_webdriver": ""
+  "path_webdriver": "",
+  "path_interface": ""
 }
