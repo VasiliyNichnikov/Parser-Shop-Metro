@@ -8,7 +8,7 @@ def create_excel(path_excel, name) -> None:
     df = pd.DataFrame()
 
     df['№'] = [i[0] for i in session.query(AdMetro.ID).all()]
-    df['Артикул'] = [' ' for i in session.query(AdMetro.ARTICLE_NUMBER).all()]
+    df['Артикул'] = [i[0] for i in session.query(AdMetro.ARTICLE_NUMBER).all()]
     df['Название товара'] = [i[0] for i in session.query(AdMetro.NAME).all()]
     df['Цена, руб.'] = [i[0] for i in session.query(AdMetro.PRICE).all()]
     df['Цена без скидки, руб.'] = [i[0] for i in session.query(AdMetro.PRICE_WITHOUT_DISCOUNT).all()]
@@ -37,28 +37,28 @@ def create_excel(path_excel, name) -> None:
     df.to_excel(writer, sheet_name='Шаблон для поставщика', index=False)
     worksheet = writer.sheets['Шаблон для поставщика']
 
-    worksheet.set_column('A:A', 10)
-    worksheet.set_column('B:B', 20)
-    worksheet.set_column('C:C', 30)
-    worksheet.set_column('D:D', 20)
-    worksheet.set_column('E:E', 20)
-    worksheet.set_column('F:F', 20)
-    worksheet.set_column('G:G', 20)
-    worksheet.set_column('H:H', 100)
-    worksheet.set_column('I:I', 100)
-    worksheet.set_column('J:J', 30)
-    worksheet.set_column('K:K', 30)
-    worksheet.set_column('L:L', 20)
-    worksheet.set_column('M:M', 30)
-    worksheet.set_column('N:N', 10)
-    worksheet.set_column('O:O', 30)
-    worksheet.set_column('P:P', 30)
-    worksheet.set_column('Q:Q', 100)
-    worksheet.set_column('R:R', 100)
-    worksheet.set_column('S:S', 100)
-    worksheet.set_column('T:T', 100)
-    worksheet.set_column('U:U', 100)
-    worksheet.set_column('V:V', 100)
+    worksheet.set_column('A:A', 10)  # №
+    worksheet.set_column('B:B', 20)  # Артикул
+    worksheet.set_column('C:C', 70)  # Название товара
+    worksheet.set_column('D:D', 20)  # Цена, руб.
+    worksheet.set_column('E:E', 20)  # Цена без скидки, руб.
+    worksheet.set_column('F:F', 20)  # Вес, г
+    worksheet.set_column('G:G', 20)  # Ширина упаковки, мм
+    worksheet.set_column('H:H', 20)  # Высота упаковки, мм
+    worksheet.set_column('I:I', 20)  # Длина упаковки, мм
+    worksheet.set_column('J:J', 45)  # Ссылка на главное фото
+    worksheet.set_column('K:K', 45)  # Ссылки на дополнительные фото
+    worksheet.set_column('L:L', 20)  # Артикул фото
+    worksheet.set_column('M:M', 30)  # Тип продукта
+    worksheet.set_column('N:N', 30)  # Тип упаковки
+    worksheet.set_column('O:O', 20)  # Минимальная температура хранения
+    worksheet.set_column('P:P', 20)  # Максимальная температура хранения
+    worksheet.set_column('Q:Q', 30)  # Срок годности в днях
+    worksheet.set_column('R:R', 40)  # Бренд
+    worksheet.set_column('S:S', 100)  # Состав
+    worksheet.set_column('T:T', 100)  # Описание
+    worksheet.set_column('U:U', 30)  # Страна изготовитель
+    worksheet.set_column('V:V', 20)  # Энергетическая ценность в 100г
 
     for col_num, value in enumerate(df.columns.values):
         worksheet.write(0, col_num, value)
