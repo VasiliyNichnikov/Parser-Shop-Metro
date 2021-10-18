@@ -1,6 +1,7 @@
 import os
 import sys
 import typing
+import traceback
 import threading
 from database import db_session
 from parameters import Parameters
@@ -16,6 +17,8 @@ class Program(QMainWindow):
     def __init__(self, parameters: Parameters) -> None:
         super().__init__()
         self.__parameters = parameters
+        print(0 / 5)
+        print(5 / 0)
 
     def load_interface(self) -> None:
         uic.loadUi(self.__parameters.path_interface, self)
@@ -114,12 +117,15 @@ if __name__ == '__main__':
 
     path_settings = "static/settings.json"
     settings = deserialization_to_parameters(path_settings)
-
-    program = Program(settings)
-    program.load_interface()
-    program.load_values_interface()
-    program.clear_database()
-    program.connect_buttons()
-    program.show()
+    try:
+        program = Program(settings)
+        program.load_interface()
+        program.load_values_interface()
+        program.clear_database()
+        program.connect_buttons()
+        program.show()
+    except:
+        with open("exceptions.log", 'a', encoding='UTF') as log_file:
+            traceback.print_exc(file=log_file)
 
     sys.exit(app.exec())
