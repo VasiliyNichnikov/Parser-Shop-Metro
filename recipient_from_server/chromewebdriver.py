@@ -1,7 +1,8 @@
 from typing import Union
 from time import sleep
 from bs4 import BeautifulSoup
-from seleniumwire.webdriver import Chrome
+from selenium.webdriver import Chrome
+# from seleniumwire.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import WebDriverException
 

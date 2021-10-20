@@ -17,8 +17,6 @@ class Program(QMainWindow):
     def __init__(self, parameters: Parameters) -> None:
         super().__init__()
         self.__parameters = parameters
-        print(0 / 5)
-        print(5 / 0)
 
     def load_interface(self) -> None:
         uic.loadUi(self.__parameters.path_interface, self)
