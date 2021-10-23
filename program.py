@@ -79,8 +79,14 @@ class Program(QMainWindow):
         create_excel(path_excel=path_excel, name=name_file)
         db_session.close_session()
         print("Parser end")
+
+        self.__open_folder_with_excel()
         self.__remove_folder_database(path_database)
         self.__change_enabled_buttons(True)
+
+    def __open_folder_with_excel(self) -> None:
+        abspath_excel = os.path.abspath(self.__parameters.path_excel)
+        os.system(f"explorer.exe {abspath_excel}")
 
     @staticmethod
     def __remove_folder_database(path_database: str):
