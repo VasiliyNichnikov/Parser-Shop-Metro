@@ -92,7 +92,7 @@ class Program(QMainWindow):
     def __select_catalog_for_excel(self) -> None:
         path_excel = QFileDialog.getExistingDirectory(self, "Выбрать папку для сохранения excel:",
                                                       self.__parameters.path_excel)
-        self.__parameters.path_excel = path_excel
+        self.__parameters.path_excel = path_excel + "/"
 
     def __save_parameters(self) -> None:
         self.__parameters.number_attempts_in_case_of_error = self.number_attempts_in_case_of_error.value()

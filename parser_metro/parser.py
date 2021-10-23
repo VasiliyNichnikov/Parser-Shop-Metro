@@ -14,7 +14,8 @@ class Parser:
 
     def run(self) -> None:
         catalog = self.__get_catalog(self.__url)
-        for page in range(2, catalog.max_page + 1):
+        # catalog.max_page + 1
+        for page in range(2, 3):
             urls_products: List[str] = catalog.urls
             print(f"Page: {page}; Urls: {urls_products}; Number urls: {len(urls_products)}")
             for url in urls_products:

@@ -62,6 +62,6 @@ def create_excel(path_excel, name) -> None:
 
     for col_num, value in enumerate(df.columns.values):
         worksheet.write(0, col_num, value)
-    print('Файл сохранен в excel')
+    print(f'Файл сохранен в excel: {path_excel + f"{name}.xlsx"}')
     writer.save()
     session.close()

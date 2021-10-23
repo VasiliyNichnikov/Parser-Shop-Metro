@@ -13,11 +13,11 @@ def sterilization_from_parameters(path_json, parameters: Parameters) -> None:
         "path_webdriver": parameters.path_webdriver,
         "path_interface": parameters.path_interface
     }
-    with open(path_json, 'w') as write_file:
-        json.dump(data, write_file)
+    with open(path_json, 'w', encoding='UTF') as write_file:
+        json.dump(data, write_file, ensure_ascii=False)
 
 
 def deserialization_to_parameters(path_json) -> Parameters:
-    with open(path_json, "r") as read_file:
+    with open(path_json, "r", encoding='UTF') as read_file:
         data = json.load(read_file)
         return Parameters(data)
