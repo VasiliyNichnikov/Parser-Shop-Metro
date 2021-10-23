@@ -8,8 +8,8 @@ from parameters import Parameters
 from parser_metro.parser import Parser
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
 from convertor.from_db_to_excel import create_excel
-from PyQt5.QtWidgets import QMainWindow, QInputDialog, QFileDialog
 from recipient_from_server.chromewebdriver import IWebDriver, ChromeWebDriver
+from PyQt5.QtWidgets import QMainWindow, QInputDialog, QFileDialog, QMessageBox
 from convertor.convertor_json import sterilization_from_parameters, deserialization_to_parameters
 
 
@@ -26,7 +26,7 @@ class Program(QMainWindow):
 
     def connect_buttons(self) -> None:
         self.button_add_url.clicked.connect(self.__add_url)
-        self.button_select_path_excel.clicked.connect(self.__select_catalog_for_excel)
+        # self.button_select_path_excel.clicked.connect(self.__select_catalog_for_excel)
         self.button_launch.clicked.connect(self.__launcher)
 
     def load_values_interface(self) -> None:
@@ -55,9 +55,12 @@ class Program(QMainWindow):
 
     def __launcher(self) -> None:
         self.__save_parameters()
-        self.__change_enabled_buttons(False)
-        thread = threading.Thread(target=self.__run_parser)
-        thread.start()
+        if len(self.__parameters.urls) > 0:
+            self.__change_enabled_buttons(False)
+            thread = threading.Thread(target=self.__run_parser)
+            thread.start()
+        else:
+            QMessageBox.critical(self, "Ошибка", "Нет ссылок для парсинга", QMessageBox.Ok)
 
     def __run_parser(self) -> None:
         name_file = "result_parser"
@@ -112,7 +115,7 @@ class Program(QMainWindow):
 
     def __change_enabled_buttons(self, condition: bool):
         self.button_add_url.setEnabled(condition)
-        self.button_select_path_excel.setEnabled(condition)
+        # self.button_select_path_excel.setEnabled(condition)
         self.button_launch.setEnabled(condition)
 
 

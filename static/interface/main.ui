@@ -98,13 +98,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="button_select_path_excel">
-          <property name="text">
-           <string>Выбрать путь до excel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="button_launch">
           <property name="text">
            <string>Запустить</string>
